@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang }}">
+  <head>
+    {% include head.html %}
+    
+    <link rel="stylesheet" href="{{ site.baseurl }}/reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/reveal.js/dist/theme/{{ page.theme | default: "black"}}.css" id="theme">
+    
+    <link rel="stylesheet" href="{{ site.baseurl }}/reveal.js/plugin/highlight/monokai.css" id="highlight">
+    <link rel="stylesheet" href="../assets/css/slide.css">
+
+  </head>
+  <body>
+    <noscript>
+      <div class="description" id="noteJS">
+        <p>JavaScriptを無効化していると、このページは表示できません。</p>
+        <p>JavaScriptを有効にしてから、再度表示してください。</p>
+      </div>
+    </noscript>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="^\r?\n---\r?\n$" data-separator-vertical="^\r?\n--\r?\n$" data-separator-notes="^Note:">
+          <script type="text/template">
+            {{ content }}
+          </script>
+      </section>
+      </div>
+    </div>
+
+    {% include script.html %}
+
+  </body>
+</html>

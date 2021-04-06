@@ -1,0 +1,15 @@
+<script src="{{ site.baseurl }}/reveal.js/dist/reveal.js"></script>
+<script src="{{ site.baseurl }}/reveal.js/plugin/markdown/markdown.js"></script>
+<script src="{{ site.baseurl }}/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="{{ site.baseurl }}/reveal.js/plugin/notes/notes.js"></script>
+<script src="{{ site.baseurl }}/reveal.js/plugin/math/math.js"></script>
+<script src="{{ site.baseurl }}/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+  Reveal.initialize({
+    {% if site.reveal %}
+    {% for attr in site.reveal %}{{attr[0]}}: {% unless {attr[1]} == false or {attr[1]} == true %}'{{attr[1]}}',{% else %}{{attr[1]}},{% endunless %}
+    {% endfor %}
+    {% endif %}
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath, RevealZoom ],
+  });
+</script>
