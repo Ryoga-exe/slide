@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Example | slide</title>
+<meta name="generator" content="Jekyll v4.2.0">
+<meta name="description" content="Presentation slides powered by Reveal.js">
+<meta name="author" content="Ryoga.exe">
+<!-- <meta name="image" content=""> -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="slide">
+<meta property="og:title" content="Example">
+<meta property="og:description" content="Presentation slides powered by Reveal.js">
+<meta property="og:url" content="https://slide.ryoga.dev/posts/example.html">
+<meta property="og:locale" content="ja_JP">
+<!-- <meta property="og:image" content=""> -->
+<!-- <meta property="og:image:alt" content="Presentation slides powered by Reveal.js"> -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@Ryoga_exe">
+<meta name="twitter:title" content="Example">
+<meta name="twitter:description" content="">
+<!-- <meta name="twitter:image" content=""> -->
+<link type="application/atom+xml" rel="alternate" href="/https://slide.ryoga.dev/feed.xml" title="slide" />
+    
+    <link rel="stylesheet" href="https://slide.ryoga.dev/reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="https://slide.ryoga.dev/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="https://slide.ryoga.dev/reveal.js/dist/theme/black.css" id="theme">
+    
+    <link rel="stylesheet" href="https://slide.ryoga.dev/reveal.js/plugin/highlight/monokai.css" id="highlight">
+    <link rel="stylesheet" href="../assets/css/slide.css">
+
+  </head>
+  <body>
+    <noscript>
+      <div class="description" id="noteJS">
+        <p>JavaScriptを無効化していると、このページは表示できません。</p>
+        <p>JavaScriptを有効にしてから、再度表示してください。</p>
+      </div>
+    </noscript>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="^\r?\n---\r?\n$" data-separator-vertical="^\r?\n--\r?\n$" data-separator-notes="^Note:">
+          <script type="text/template">
+            ## Sample Text
+##### -- sub text --
+***
+</br>
+
+#### Ryoga.exe
+
+---
+
+## Lists
+
+- List1 <!-- .element: class="fragment" data-fragment-index="1" -->
+- List2 <!-- .element: class="fragment" data-fragment-index="2" -->
+- List3 <!-- .element: class="fragment" data-fragment-index="3" -->
+
+---
+
+## Vertical Scroll
+- first
+
+--
+
+- second
+
+---
+
+## code
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+  int a = 0;
+  cout << "Hello world!" << endl;
+  return 0;
+}
+```
+
+---
+
+<!-- .slide: data-background="#aaa" -->
+## Background
+
+---
+
+<!-- .slide: data-transition="zoom-in fade-out" -->
+## Transition
+
+---
+
+## Note
+
+Note: aaaaaaaaaa
+
+---
+
+## Image
+
+![Image](test.png)
+
+---
+
+## End
+          </script>
+      </section>
+      </div>
+    </div>
+
+    <script src="https://slide.ryoga.dev/reveal.js/dist/reveal.js"></script>
+<script src="https://slide.ryoga.dev/reveal.js/plugin/markdown/markdown.js"></script>
+<script src="https://slide.ryoga.dev/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="https://slide.ryoga.dev/reveal.js/plugin/notes/notes.js"></script>
+<script src="https://slide.ryoga.dev/reveal.js/plugin/math/math.js"></script>
+<script src="https://slide.ryoga.dev/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+  Reveal.initialize({
+    
+    margin: '0.1',
+    minScale: '0.2',
+    maxScale: '1.5',
+    controls: true,
+    controlsTutorial: true,
+    controlsLayout: 'bottom-right',
+    controlsBackArrows: 'faded',
+    progress: true,
+    slideNumber: false,
+    showSlideNumber: 'all',
+    hashOneBasedIndex: false,
+    hash: true,
+    respondToHashChanges: true,
+    history: false,
+    keyboard: true,
+    keyboardCondition: '',
+    disableLayout: false,
+    overview: true,
+    center: true,
+    touch: true,
+    loop: false,
+    rtl: false,
+    navigationMode: 'default',
+    shuffle: false,
+    fragments: true,
+    fragmentInURL: true,
+    embedded: false,
+    help: true,
+    pause: true,
+    showNotes: false,
+    autoPlayMedia: '',
+    preloadIframes: '',
+    autoAnimate: true,
+    autoAnimateMatcher: '',
+    autoAnimateEasing: 'ease',
+    autoAnimateDuration: '1.0',
+    autoAnimateUnmatched: true,
+    autoAnimateStyles: '[ "opacity", "color", "background-color", "padding", "font-size", "line-height", "letter-spacing", "border-width", "border-color", "border-radius", "outline", "outline-offset" ]',
+    autoSlide: false,
+    autoSlideStoppable: true,
+    autoSlideMethod: '',
+    defaultTiming: '',
+    mouseWheel: false,
+    previewLinks: false,
+    postMessage: true,
+    postMessageEvents: false,
+    focusBodyOnPageVisibilityChange: true,
+    transition: 'slide',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    pdfMaxPagesPerSlide: 'Number.POSITIVE_INFINITY',
+    pdfSeparateFragments: false,
+    pdfPageHeightOffset: '-1',
+    viewDistance: '3',
+    mobileViewDistance: '2',
+    display: 'block',
+    hideInactiveCursor: true,
+    hideCursorTime: '5000',
+    
+    
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath, RevealZoom ],
+  });
+</script>
+
+  </body>
+</html>

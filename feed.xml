@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ja"><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="/https://slide.ryoga.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="/https://slide.ryoga.dev/" rel="alternate" type="text/html" hreflang="ja" /><updated>2021-04-06T17:38:18+00:00</updated><id>/https://slide.ryoga.dev/feed.xml</id><title type="html">slide</title><subtitle>Presentation slides powered by Reveal.js</subtitle><author><name>Ryoga.exe</name></author><entry><title type="html">Example</title><link href="/https://slide.ryoga.dev/posts/example.html" rel="alternate" type="text/html" title="Example" /><published>2021-04-06T00:00:00+00:00</published><updated>2021-04-06T00:00:00+00:00</updated><id>/https://slide.ryoga.dev/posts/example</id><content type="html" xml:base="/https://slide.ryoga.dev/posts/example.html">## Sample Text
+##### -- sub text --
+***
+&lt;/br&gt;
+
+#### Ryoga.exe
+
+---
+
+## Lists
+
+- List1 &lt;!-- .element: class=&quot;fragment&quot; data-fragment-index=&quot;1&quot; --&gt;
+- List2 &lt;!-- .element: class=&quot;fragment&quot; data-fragment-index=&quot;2&quot; --&gt;
+- List3 &lt;!-- .element: class=&quot;fragment&quot; data-fragment-index=&quot;3&quot; --&gt;
+
+---
+
+## Vertical Scroll
+- first
+
+--
+
+- second
+
+---
+
+## code
+
+```cpp
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+  int a = 0;
+  cout &lt;&lt; &quot;Hello world!&quot; &lt;&lt; endl;
+  return 0;
+}
+```
+
+---
+
+&lt;!-- .slide: data-background=&quot;#aaa&quot; --&gt;
+## Background
+
+---
+
+&lt;!-- .slide: data-transition=&quot;zoom-in fade-out&quot; --&gt;
+## Transition
+
+---
+
+## Note
+
+Note: aaaaaaaaaa
+
+---
+
+## Image
+
+![Image](test.png)
+
+---
+
+## End</content><author><name>Ryoga.exe</name></author><summary type="html">## Sample Text ##### -- sub text -- ***</summary></entry></feed>
