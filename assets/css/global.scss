@@ -1,0 +1,38 @@
+---
+---
+
+*{
+  margin: 0px; 
+  padding: 0px; 
+  box-sizing: border-box;
+  outline: none;
+}
+
+.selection-disabled {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container {
+  margin: 0px auto;
+  padding: 0px 4vw;
+  max-width: 1120px;
+}
+
+body {
+  font-family: sans-serif;
+  font-weight: normal;
+  letter-spacing: 0;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  font-size: 16px;
+}
+
+li {
+  list-style: none;
+}

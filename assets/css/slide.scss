@@ -1,0 +1,61 @@
+---
+---
+
+.line {
+  display: block;
+
+  &.focus {
+    background: #fdf6e3;
+    color: #657b83;
+    opacity: 1.0;
+  }
+}
+
+.reveal {
+  h1, h2, h3, h4, h5, h6 {
+    text-transform: none;
+  }
+  .slides {
+    section {
+      .fragment.current-only {
+        visibility: visible;
+        display: none;
+
+        &.current-fragment {
+          display: block;
+        }
+      }
+      .code-presenting-annotation {
+        color: white;
+        background: black;
+        padding: 0px 15px;
+        border-radius: 15px;
+        opacity: 0.75 !important;
+        font-size: 50% !important;
+      }
+    }
+  }
+  pre {
+    font-size: 0.53em;
+    line-height: 1.45em;
+
+    code {
+      @media (device-width: 100vw) and (device-height: 100vh) {
+        max-height: 50vh !important;
+      }
+    }
+  }
+  .hljs {
+    border-radius: 0.2em;
+    display: block;
+    overflow-x: auto;
+    padding: 0.8em;
+    font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
+  }
+}
+
+#logo img {
+  max-height: 3.5em;
+  max-width: none;
+  min-width: 50px;
+}

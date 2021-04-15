@@ -2,11 +2,16 @@
 layout: default
 ---
 
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-      {{ post.excerpt }}
-    </li>
-  {% endfor %}
-</ul>
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/top.css">
+{% include header.html %}
+<main class="container">
+  <div class="posts">
+    <ul>
+      {% for post in site.posts %}
+        <li>
+          <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</main>
