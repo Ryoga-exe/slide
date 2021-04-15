@@ -1,1 +1,1 @@
-Sitemap: /https://slide.ryoga.dev/sitemap.xml
+Sitemap: /https://ryoga-exe.github.io/slide/sitemap.xml

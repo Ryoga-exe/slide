@@ -1,65 +1,21 @@
-.line {
-  display: block;
-}
+.line { display: block; }
 
-.line.focus {
-  background: #fdf6e3;
-  color: #657b83;
-}
+.line.focus { background: #fdf6e3; color: #657b83; opacity: 1.0; }
 
-.reveal .slides section .fragment.current-only {
-  visibility: visible;
-  display: none;
-}
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 { text-transform: none; }
 
-.reveal .slides section .fragment.current-only.current-fragment {
-  display: block;
-}
+.reveal .slides section .fragment.current-only { visibility: visible; display: none; }
 
-.line.focus {
-  opacity: 1.0;
-} 
+.reveal .slides section .fragment.current-only.current-fragment { display: block; }
 
-@media (device-width: 100vw) and (device-height: 100vh) {
-  .reveal pre code {
-    max-height: 50vh !important;
-  }
-}
+.reveal .slides section .code-presenting-annotation { color: white; background: black; padding: 0px 15px; border-radius: 15px; opacity: 0.75 !important; font-size: 50% !important; }
 
-#logo img {
-  max-height: 3.5em;
-  max-width: none;
-  min-width: 50px;
-}
+.reveal pre { font-size: 0.53em; line-height: 1.45em; }
 
-.reveal .slides section .code-presenting-annotation {
-  color: white;
-  background: black;
-  padding: 0px 15px;
-  border-radius: 15px;
-  opacity: 0.75 !important;
-  font-size: 50% !important;
-}
+@media (device-width: 100vw) and (device-height: 100vh) { .reveal pre code { max-height: 50vh !important; } }
 
-.reveal h1,
-.reveal h2,
-.reveal h3,
-.reveal h4,
-.reveal h5,
-.reveal h6 {
-  text-transform: none;
-}
+.reveal .hljs { border-radius: 0.2em; display: block; overflow-x: auto; padding: 0.8em; font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace; }
 
+#logo img { max-height: 3.5em; max-width: none; min-width: 50px; }
 
-.reveal pre {
-  font-size: 0.53em;
-  line-height: 1.45em;
-}
-
-.reveal .hljs {
-  border-radius: 0.2em;
-  display: block;
-  overflow-x: auto;
-  padding: 0.8em;
-  font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
-}
+/*# sourceMappingURL=slide.css.map */

@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "top.css",
+	"sources": [
+		"top.scss"
+	],
+	"sourcesContent": [
+		"header {\n  background-color: #15171a;\n  color: #eee;\n  font-size: 1.3rem;\n  > div {\n    height: 50px;\n    display: flex;\n    display: -webkit-flex;\n    align-items: center;\n    justify-content: space-between;\n    -webkit-align-items: center;\n    -webkit-justify-content: space-between;\n    > div > span {\n      opacity: 0.6;\n      font-size: 0.7em;\n      padding-left: 5px;\n    }\n  }\n}\n\nmain {\n  > div {\n    padding-top: 15px;\n  }\n}\n\n.icon-anchor {\n  position: relative;\n  height: 25px;\n}"
+	],
+	"names": [],
+	"mappings": "AAAA,AAAA,MAAM,CAAC,EACL,gBAAgB,EAAE,OAAO,EACzB,KAAK,EAAE,IAAI,EACX,SAAS,EAAE,MAAM,GAelB;;AAlBD,AAIE,MAJI,GAIF,GAAG,CAAC,EACJ,MAAM,EAAE,IAAI,EACZ,OAAO,EAAE,IAAI,EACb,OAAO,EAAE,YAAY,EACrB,WAAW,EAAE,MAAM,EACnB,eAAe,EAAE,aAAa,EAC9B,mBAAmB,EAAE,MAAM,EAC3B,uBAAuB,EAAE,aAAa,GAMvC;;AAjBH,AAYI,MAZE,GAIF,GAAG,GAQD,GAAG,GAAG,IAAI,CAAC,EACX,OAAO,EAAE,GAAG,EACZ,SAAS,EAAE,KAAK,EAChB,YAAY,EAAE,GAAG,GAClB;;AAIL,AACE,IADE,GACA,GAAG,CAAC,EACJ,WAAW,EAAE,IAAI,GAClB;;AAGH,AAAA,YAAY,CAAC,EACX,QAAQ,EAAE,QAAQ,EAClB,MAAM,EAAE,IAAI,GACb"
+}
