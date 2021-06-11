@@ -11,5 +11,5 @@ Presentation slides powered by Reveal.js
 - [reveal.js](https://revealjs.com/)
 - [Jekyll](https://jekyllrb.com/)
 - Markdown
-- GitHub Pages
+- [GitHub Pages](https://pages.github.com/)
 - GitHub Actions
