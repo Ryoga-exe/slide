@@ -1,1 +1,4 @@
-Sitemap: /https://ryoga-exe.github.io/slide/sitemap.xml
+User-agent: *
+Allow: /
+Sitemap: https://slide.ryoga.dev/sitemap.xml
+Host: https://slide.ryoga.dev
