@@ -1,0 +1,23 @@
+---
+---
+
+.msg {
+  margin-top: 50px;
+  line-height: 1.0;
+  text-align: center;
+  font-weight: 500;
+  
+  > .msg404 {
+    display: block;
+    font-size: 100px;
+  }
+
+  > .notfound {
+    display: block;
+    font-size: 25px;
+  }
+
+  > p {
+    margin-top: 30px;
+  }
+}
