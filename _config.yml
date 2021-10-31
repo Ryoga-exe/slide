@@ -7,8 +7,6 @@ repo: slide
 lang: ja
 locale: ja_JP
 
-markdown: ProcessorRaw
-
 defaults:
   - scope:
       path: ""
