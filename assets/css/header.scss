@@ -1,0 +1,22 @@
+---
+---
+
+header {
+  background-color: #15171a;
+  color: #eee;
+  font-size: 1.3rem;
+  > div {
+    height: 50px;
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: space-between;
+    -webkit-align-items: center;
+    -webkit-justify-content: space-between;
+    > div > span {
+      opacity: 0.6;
+      font-size: 0.7em;
+      padding-left: 5px;
+    }
+  }
+}
