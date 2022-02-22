@@ -30,10 +30,10 @@ reveal:
   # width: 1200
   # height: 960
   ## Factor of the display size that should remain empty around the content
-  margin: 0.1
+  # margin: 0.1
   ## Bounds for smallest/largest possible scale to apply to content
-  minScale: 0.2
-  maxScale: 1.5
+  # minScale: 0.2
+  # maxScale: 1.5
 
   ## Display presentation control arrows
   controls: true
@@ -256,7 +256,7 @@ reveal:
 
   ## The maximum number of pages a single slide can expand onto when printing
   ## to PDF, unlimited by default
-  pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY
+  # pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY
 
   ## Prints each fragment on a separate slide
   pdfSeparateFragments: false
@@ -266,7 +266,7 @@ reveal:
   ## print to PDF. CLI printing options, like phantomjs and wkpdf, can end
   ## on precisely the total height of the document whereas in-browser
   ## printing has to end one pixel before.
-  pdfPageHeightOffset: -1
+  # pdfPageHeightOffset: -1
 
   ## Number of slides away from the current that are visible
   viewDistance: 3
