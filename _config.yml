@@ -195,20 +195,20 @@ reveal:
   ## CSS properties that can be auto-animated. Position & scale
   ## is matched separately so there's no need to include styles
   ## like top/right/bottom/left, width/height or margin.
-  autoAnimateStyles: '[
-      "opacity",
-      "color",
-      "background-color",
-      "padding",
-      "font-size",
-      "line-height",
-      "letter-spacing",
-      "border-width",
-      "border-color",
-      "border-radius",
-      "outline",
-      "outline-offset"
-    ]'
+  # autoAnimateStyles: '[
+  #    "opacity",
+  #    "color",
+  #    "background-color",
+  #    "padding",
+  #    "font-size",
+  #    "line-height",
+  #    "letter-spacing",
+  #    "border-width",
+  #    "border-color",
+  #    "border-radius",
+  #    "outline",
+  #    "outline-offset"
+  #  ]'
 
   ## Controls automatic progression to the next slide
   ## - 0:      Auto-sliding only happens if the data-autoslide HTML attribute
