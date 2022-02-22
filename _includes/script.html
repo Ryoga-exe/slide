@@ -7,8 +7,12 @@
 <script>
   Reveal.initialize({
     {% if site.reveal %}
-    {% for attr in site.reveal %}{{attr[0]}}: {% unless {attr[1]} == false or {attr[1]} == true %}'{{attr[1]}}',{% else %}{{attr[1]}},{% endunless %}
-    {% endfor %}
+      {% for attr in site.reveal %}{{attr[0]}}: {% unless {attr[1]} == false or {attr[1]} == true %}'{{attr[1]}}',{% else %}{{attr[1]}},{% endunless %}
+      {% endfor %}
+    {% endif %}
+    {% if page.reveal %}
+      {% for attr in page.reveal %}{{attr[0]}}: {% unless {attr[1]} == false or {attr[1]} == true %}'{{attr[1]}}',{% else %}{{attr[1]}},{% endunless %}
+      {% endfor %}
     {% endif %}
     plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath, RevealZoom ],
   });
