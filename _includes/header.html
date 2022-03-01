@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/header.css">
 <header>
   <div class="container">
-    <div>Slide<span>{{ site.myurl  | remove: "http://"  | remove: "https://" }}</span></div>
+    <div>Slide<span>{{ site.url  | remove: "http://"  | remove: "https://" }}</span></div>
     <a href="https://github.com/{{ site.github.username }}/{{ site.repo }}" class="icon-anchor">
       {% octicon mark-github height:25 class:"mr-2 v-align-middle" fill:{{ white }} aria-label:GitHub %}
     </a>
