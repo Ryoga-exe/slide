@@ -6,6 +6,12 @@ Presentation slides powered by Reveal.js
 
 [ここ](https://slide.ryoga.dev)から見られます！
 
+# Local development
+
+```
+bundle exec jekyll serve --base ''
+```
+
 ## 使用技術
 
 - [reveal.js](https://revealjs.com/)
