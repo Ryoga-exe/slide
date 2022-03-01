@@ -34,10 +34,13 @@
               | replace:'<fragment/>','<!-- .element: class="fragment" -->'
               | replace:'<background>','<!-- .slide: data-background="'
               | replace:'</background>','" -->'
-              | replace:'<backgroundimage>','<!-- .slide: data-background="'
-              | replace:'</backgroundimage>','" --> '
-              | replace:'<backgroundimageopacity>','<!-- .slide: data-background-opacity="'
-              | replace:'</backgroundimageopacity>','" -->'
+              | replace:'<background-image>','<!-- .slide: data-background="'
+              | replace:'</background-image>','" --> '
+              | replace:'<background-image-opacity>','<!-- .slide: data-background-opacity="'
+              | replace:'</background-image-opacity>','" -->'
+              | replace:'<auto-animate/>','<!-- .slide: data-auto-animate -->'
+              | replace:'<transition>','<!-- .slide: data-transition="'
+              | replace:'</transition>','" -->'
 %}{%
               assign first_char = line | strip | slice: 0,1
 %}{%
