@@ -1,7 +1,7 @@
 title: slide
 author: Ryoga.exe
 description: Presentation slides powered by Reveal.js
-baseurl: https://ryoga-exe.github.io/slide
+base: https://ryoga-exe.github.io/slide
 url: https://slide.ryoga.dev
 repo: slide
 lang: ja
