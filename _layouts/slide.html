@@ -18,18 +18,52 @@
         <p>JavaScriptを有効にしてから、再度表示してください。</p>
       </div>
     </noscript>
+    {% capture slide_content %}{% include_relative {{ page.path | remove: "_posts/" }} %}{% endcapture %}
+    {% assign lines = slide_content | newline_to_br | strip_newlines | split: "<br />" %}
+    {% assign frontmatter_count = 0 %}
     <div class="reveal">
       <div class="slides">
         <section data-markdown data-separator="^\r?\n---\r?\n$" data-separator-vertical="^\r?\n--\r?\n$" data-separator-notes="^Note:">
-            <script type="text/template">
-              {% include_relative {{ page.path | remove: "_posts/" }} %}
-            </script>
+          <script type="text/template">
+{%
+            for line in lines
+%}{%
+              if frontmatter_count > 1
+%}{% 
+              assign processed_line = line
+              | replace:'<fragment/>','<!-- .element: class="fragment" -->'
+              | replace:'<background>','<!-- .slide: data-background="'
+              | replace:'</background>','" -->'
+              | replace:'<backgroundimage>','<!-- .slide: data-background="'
+              | replace:'</backgroundimage>','" --> '
+              | replace:'<backgroundimageopacity>','<!-- .slide: data-background-opacity="'
+              | replace:'</backgroundimageopacity>','" -->'
+%}{%
+              assign first_char = line | strip | slice: 0,1
+%}{%
+              if first_char == '+'
+%}{%
+                assign processed_line = processed_line | replace_first: '+','+ <!-- .element: class="fragment" -->'
+%}{%
+              endif
+            %}{{ processed_line }}
+{%
+            endif
+%}{%
+            if line == "---"
+%}{%
+              assign frontmatter_count = frontmatter_count | plus:1
+%}{%
+            endif
+%}{%
+          endfor
+%}
+          </script>
         </section>
       </div>
     </div>
 
     {% include script.html %}
-    {% include remove-frontmatter.html %}
 
   </body>
 </html>
