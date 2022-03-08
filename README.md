@@ -9,7 +9,7 @@ Presentation slides powered by Reveal.js
 # Local development
 
 ```
-bundle exec jekyll serve --base ''
+bundle exec jekyll serve
 ```
 
 ## 使用技術
