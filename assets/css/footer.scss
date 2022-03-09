@@ -1,0 +1,31 @@
+---
+---
+
+body {
+  position: relative;
+  min-height: 100vh;
+}
+
+main.container {
+  padding: 0px 4vw 100px 4vw;
+}
+
+footer {
+  background-color: #15171a;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  position: absolute;
+  bottom: 0;
+  small {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      &:hover {
+        color: rgba(255, 255, 255, 1.0);
+      }
+    }
+  }
+}

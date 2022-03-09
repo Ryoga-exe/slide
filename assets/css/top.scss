@@ -1,8 +1,41 @@
 ---
 ---
 
+body {
+  background-color: whitesmoke;
+}
+
 main {
-  > div {
+  > div.posts {
     padding-top: 15px;
+    article {
+      padding: 16px 24px;
+      margin-top: 16px;
+      background-color: white;
+      cursor: pointer;
+      position: relative;
+      > a {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      > h2 {
+        a {
+          text-decoration: none;
+          color: #121212;
+          &:visited {
+            color: #666;
+          }
+        }
+      }
+      &:hover {
+        border-left: 3px solid #305fbe;
+        > h2 a {
+          color: #305fbe;
+        }
+      }
+    }
   }
 }
