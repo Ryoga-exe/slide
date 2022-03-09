@@ -1,6 +1,6 @@
 # Slide
 
-Presentation slides powered by Reveal.js
+Presentation slides powered by Jekyll & reveal.js
 
 スライドを公開するためのものです
 
