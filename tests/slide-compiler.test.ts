@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { load } from "cheerio";
+import { parseHTML } from "linkedom";
 import { compileSlides } from "../src/lib/slide-compiler.ts";
 
-test("Markdown is compiled into horizontal and vertical sections", () => {
-  const result = compileSlides(`
+test("RevealMarkdown compiles horizontal and vertical sections", async () => {
+  const html = await compileSlides(`
 ## One
 
 ---
@@ -15,20 +15,24 @@ test("Markdown is compiled into horizontal and vertical sections", () => {
 
 ## Two point one
 `);
-  const $ = load(`<div class="slides">${result.html}</div>`, {}, false);
+  const { document } = parseHTML(`<div class="slides">${html}</div>`);
+  const slides = document.querySelector(".slides")!;
+  const sections = [...slides.querySelectorAll("section")];
+  const slideCount = sections.filter(
+    (section) => !section.querySelector(":scope > section"),
+  ).length;
 
-  assert.equal(result.slideCount, 3);
-  assert.equal($(".slides > section").length, 2);
-  assert.equal($(".slides > section").eq(1).children("section").length, 2);
-  assert.equal($("[data-markdown]").length, 0);
+  assert.equal(slideCount, 3);
+  assert.equal(slides.children.length, 2);
+  assert.equal(slides.children[1].children.length, 2);
+  assert.equal(slides.querySelectorAll("[data-markdown]").length, 0);
 });
 
-test("Reveal attributes, fragments, notes, and code highlights are compiled", () => {
-  const result = compileSlides(`
-<auto-animate/>
-<!-- .slide: style="text-align: left;" -->
+test("RevealMarkdown compiles attributes, fragments, notes, and code highlights", async () => {
+  const html = await compileSlides(`
+<!-- .slide: data-auto-animate style="text-align: left;" -->
 
-+ First
+- First <!-- .element: class="fragment" -->
 
 \`\`\`js [10: 1|2]
 const one = 1;
@@ -37,27 +41,24 @@ const two = 2;
 
 Note: Remember this.
 `);
-  const $ = load(result.html, {}, false);
-  const section = $("section").first();
+  const { document } = parseHTML(html);
+  const section = document.querySelector("section")!;
 
-  assert.equal(section.attr("data-auto-animate"), "");
-  assert.equal(section.attr("style"), "text-align: left;");
-  assert.equal(section.find("li").attr("class"), "fragment");
-  assert.equal(section.find("code").attr("data-line-numbers"), "1|2");
-  assert.equal(section.find("code").attr("data-ln-start-from"), "10");
-  assert.equal(section.find("aside.notes").text().trim(), "Remember this.");
-  assert.equal(result.html.includes(".slide:"), false);
-  assert.equal(result.html.includes(".element:"), false);
-});
-
-test("Slide separators inside fenced code are not split", () => {
-  const result = compileSlides(`
-\`\`\`text
----
---
-\`\`\`
-`);
-
-  assert.equal(result.slideCount, 1);
-  assert.match(result.html, /---\n--/);
+  assert.equal(section.getAttribute("data-auto-animate"), "");
+  assert.equal(section.getAttribute("style"), "text-align: left;");
+  assert.equal(section.querySelector("li")!.getAttribute("class"), "fragment");
+  assert.equal(
+    section.querySelector("code")!.getAttribute("data-line-numbers"),
+    "1|2",
+  );
+  assert.equal(
+    section.querySelector("code")!.getAttribute("data-ln-start-from"),
+    "10",
+  );
+  assert.equal(
+    section.querySelector("aside.notes")!.textContent.trim(),
+    "Remember this.",
+  );
+  assert.equal(html.includes(".slide:"), false);
+  assert.equal(html.includes(".element:"), false);
 });

@@ -9,7 +9,7 @@ theme: black
 ## CSS 黒魔術
 ##### - CSS だけでモンテカルロ法を実装する -
 ***
-</br>
+<br>
 
 #### Ryoga.exe
 
@@ -46,12 +46,12 @@ theme: black
 
 --
 
-<auto-animate/>
+<!-- .slide: data-auto-animate -->
 ## 本当に CSS だけ？
 
 --
 
-<auto-animate/>
+<!-- .slide: data-auto-animate -->
 ## 本当に CSS だけ？
 ## はい
 

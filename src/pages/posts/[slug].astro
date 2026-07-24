@@ -16,7 +16,7 @@ type Props = {
 };
 
 const { slide } = Astro.props;
-const compiled = compileSlides(slide.body ?? "");
+const slidesHtml = await compileSlides(slide.body ?? "");
 ---
 
 <SlideLayout
@@ -26,5 +26,5 @@ const compiled = compileSlides(slide.body ?? "");
   reveal={slide.data.reveal}
   embedTwitter={slide.data.embedTwitter}
 >
-  <Fragment set:html={compiled.html} />
+  <Fragment set:html={slidesHtml} />
 </SlideLayout>
