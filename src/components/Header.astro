@@ -1,0 +1,19 @@
+---
+import { siteConfig } from "../config";
+import GitHubIcon from "./GitHubIcon.astro";
+---
+
+<header>
+  <div class="container">
+    <a class="brand" href="/">
+      Slide<span>{new URL(siteConfig.url).host}</span>
+    </a>
+    <a
+      href={siteConfig.github}
+      class="icon-anchor"
+      aria-label="GitHubでソースを見る"
+    >
+      <GitHubIcon size={25} />
+    </a>
+  </div>
+</header>

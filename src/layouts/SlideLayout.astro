@@ -1,0 +1,87 @@
+---
+import type { RevealConfig } from "reveal.js";
+import highlightTheme from "reveal.js/plugin/highlight/monokai.css?url";
+import revealStyles from "reveal.js/reveal.css?url";
+import resetStyles from "reveal.js/reset.css?url";
+import blackTheme from "reveal.js/theme/black.css?url";
+import whiteTheme from "reveal.js/theme/white.css?url";
+import Head from "../components/Head.astro";
+import { defaultRevealConfig, siteConfig } from "../config";
+import "../styles/global.scss";
+import "../styles/slide.scss";
+
+type Props = {
+  title: string;
+  description: string;
+  theme: "black" | "white";
+  reveal?: Partial<RevealConfig>;
+  embedTwitter?: boolean;
+};
+
+const {
+  title,
+  description,
+  theme,
+  reveal = {},
+  embedTwitter = false,
+} = Astro.props;
+const options = { ...defaultRevealConfig, ...reveal };
+const themeStyles = theme === "white" ? whiteTheme : blackTheme;
+---
+
+<!doctype html>
+<html lang={siteConfig.lang}>
+  <head>
+    <Head title={title} description={description} type="article" />
+    <link rel="stylesheet" href={resetStyles} />
+    <link rel="stylesheet" href={revealStyles} />
+    <link rel="stylesheet" href={themeStyles} id="theme" />
+    <link rel="stylesheet" href={highlightTheme} id="highlight" />
+  </head>
+  <body>
+    <noscript>
+      <p class="no-script">
+        スライド操作にはJavaScriptが必要です。本文はこのページ内に出力されています。
+      </p>
+    </noscript>
+    <div class="reveal" data-reveal-options={JSON.stringify(options)}>
+      <div class="slides">
+        <slot />
+      </div>
+    </div>
+
+    <script>
+      import Reveal from "reveal.js";
+      import RevealHighlight from "reveal.js/plugin/highlight";
+      import RevealMath from "reveal.js/plugin/math";
+      import RevealNotes from "reveal.js/plugin/notes";
+      import RevealZoom from "reveal.js/plugin/zoom";
+
+      const root = document.querySelector<HTMLElement>(".reveal");
+      if (root) {
+        const options = JSON.parse(root.dataset.revealOptions ?? "{}");
+        const deck = new Reveal(root, {
+          ...options,
+          plugins: [
+            RevealHighlight,
+            RevealNotes,
+            RevealMath.MathJax3,
+            RevealZoom,
+          ],
+        });
+        await deck.initialize();
+        (window as typeof window & { Reveal?: typeof deck }).Reveal = deck;
+      }
+    </script>
+    {
+      embedTwitter && (
+        <script
+          is:inline
+          async
+          src="https://platform.twitter.com/widgets.js"
+          charset="utf-8"
+        />
+      )
+    }
+  </body>
+</html>

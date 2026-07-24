@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/top.scss";
+
+const slides = (await getCollection("slides")).sort(
+  (left, right) =>
+    right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
+);
+---
+
+<BaseLayout title="Top">
+  <div class="posts">
+    {
+      slides.map((slide) => (
+        <article>
+          <a
+            class="article-link"
+            href={`/posts/${slide.data.slug}.html`}
+            aria-label={`${slide.data.title}を見る`}
+          />
+          <time datetime={slide.data.publishedAt.toISOString()}>
+            {slide.data.publishedAt.toLocaleDateString("ja-JP")}
+          </time>
+          <h2>
+            <a href={`/posts/${slide.data.slug}.html`}>{slide.data.title}</a>
+          </h2>
+          <p>{slide.data.description}</p>
+        </article>
+      ))
+    }
+  </div>
+</BaseLayout>
