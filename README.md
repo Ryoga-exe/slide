@@ -8,7 +8,9 @@ Presentation slides powered by Jekyll & reveal.js
 
 # Local development
 
-```
+```sh
+mise install
+bundle install
 bundle exec jekyll serve
 ```
 
