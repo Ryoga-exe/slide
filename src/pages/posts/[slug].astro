@@ -1,12 +1,11 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import SlideLayout from "../../layouts/SlideLayout.astro";
-import { compileSlides } from "../../lib/slide-compiler";
 
 export async function getStaticPaths() {
   const slides = await getCollection("slides");
   return slides.map((slide) => ({
-    params: { slug: slide.data.slug },
+    params: { slug: slide.id },
     props: { slide },
   }));
 }
@@ -16,15 +15,19 @@ type Props = {
 };
 
 const { slide } = Astro.props;
-const slidesHtml = await compileSlides(slide.body ?? "");
+const { Content } = await render(slide);
 ---
 
-<SlideLayout
-  title={slide.data.title}
-  description={slide.data.description}
-  theme={slide.data.theme}
-  reveal={slide.data.reveal}
-  embedTwitter={slide.data.embedTwitter}
->
-  <Fragment set:html={slidesHtml} />
-</SlideLayout>
+{
+  slide.data.engine === "reveal" && (
+    <SlideLayout
+      title={slide.data.title}
+      description={slide.data.description}
+      theme={slide.data.theme}
+      reveal={slide.data.reveal}
+      embedTwitter={slide.data.embedTwitter}
+    >
+      <Content />
+    </SlideLayout>
+  )
+}

@@ -16,7 +16,7 @@ export async function GET(context: { site?: URL }) {
       title: slide.data.title,
       description: slide.data.description,
       pubDate: slide.data.publishedAt,
-      link: `/posts/${slide.data.slug}.html`,
+      link: `/posts/${slide.id}.html`,
     })),
     customData: "<language>ja</language>",
   });

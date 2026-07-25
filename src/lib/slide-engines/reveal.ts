@@ -10,7 +10,7 @@ const markdownConfig: RevealConfig = {
   },
 };
 
-export async function compileSlides(source: string): Promise<string> {
+export async function compileRevealSlides(source: string): Promise<string> {
   const { document, Node } = parseHTML(`
     <div class="reveal">
       <div class="slides">

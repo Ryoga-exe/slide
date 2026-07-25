@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { parseHTML } from "linkedom";
-import { compileSlides } from "../src/lib/slide-compiler.ts";
+import { compileSlide } from "../src/lib/slide-engines/index.ts";
 
 test("RevealMarkdown compiles horizontal and vertical sections", async () => {
-  const html = await compileSlides(`
+  const html = await compileSlide(
+    "reveal",
+    `
 ## One
 
 ---
@@ -14,7 +16,8 @@ test("RevealMarkdown compiles horizontal and vertical sections", async () => {
 --
 
 ## Two point one
-`);
+`,
+  );
   const { document } = parseHTML(`<div class="slides">${html}</div>`);
   const slides = document.querySelector(".slides")!;
   const sections = [...slides.querySelectorAll("section")];
@@ -29,7 +32,9 @@ test("RevealMarkdown compiles horizontal and vertical sections", async () => {
 });
 
 test("RevealMarkdown compiles attributes, fragments, notes, and code highlights", async () => {
-  const html = await compileSlides(`
+  const html = await compileSlide(
+    "reveal",
+    `
 <!-- .slide: data-auto-animate style="text-align: left;" -->
 
 - First <!-- .element: class="fragment" -->
@@ -40,7 +45,8 @@ const two = 2;
 \`\`\`
 
 Note: Remember this.
-`);
+`,
+  );
   const { document } = parseHTML(html);
   const section = document.querySelector("section")!;
 
@@ -61,4 +67,11 @@ Note: Remember this.
   );
   assert.equal(html.includes(".slide:"), false);
   assert.equal(html.includes(".element:"), false);
+});
+
+test("Unknown slide engines are rejected", async () => {
+  await assert.rejects(
+    compileSlide("unknown", "# Slide"),
+    /Unsupported slide engine: unknown/,
+  );
 });

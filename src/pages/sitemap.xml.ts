@@ -15,7 +15,7 @@ export async function GET() {
     url("/"),
     url("/about.html"),
     ...slides.map((slide) =>
-      url(`/posts/${slide.data.slug}.html`, slide.data.publishedAt),
+      url(`/posts/${slide.id}.html`, slide.data.publishedAt),
     ),
   ];
 
