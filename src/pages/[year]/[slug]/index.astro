@@ -1,14 +1,24 @@
 ---
-import { getCollection, render, type CollectionEntry } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import SlideLayout from "src/layouts/SlideLayout.astro";
+import { compileSlide } from "src/lib/slide-engines";
 import { parseSlideId } from "src/lib/slide-paths";
 
 export async function getStaticPaths() {
   const slides = await getCollection("slides");
-  return slides.map((slide) => ({
-    params: parseSlideId(slide.id),
-    props: { slide },
-  }));
+  return slides.map((slide) => {
+    const params = parseSlideId(slide.id);
+    if (String(slide.data.publishedAt.getUTCFullYear()) !== params.year) {
+      throw new Error(
+        `Slide "${slide.id}" must have a publishedAt date in ${params.year}.`,
+      );
+    }
+
+    return {
+      params,
+      props: { slide },
+    };
+  });
 }
 
 type Props = {
@@ -16,7 +26,10 @@ type Props = {
 };
 
 const { slide } = Astro.props;
-const { Content } = await render(slide);
+if (slide.body === undefined) {
+  throw new Error(`Slide "${slide.id}" has no Markdown body.`);
+}
+const html = await compileSlide(slide.data.engine, slide.body);
 ---
 
 {
@@ -28,7 +41,7 @@ const { Content } = await render(slide);
       reveal={slide.data.reveal}
       embedTwitter={slide.data.embedTwitter}
     >
-      <Content />
+      <Fragment set:html={html} />
     </SlideLayout>
   )
 }
