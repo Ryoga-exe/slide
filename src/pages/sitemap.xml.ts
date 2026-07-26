@@ -14,7 +14,7 @@ export async function GET() {
   const slides = await getCollection("slides");
   const entries = [
     url("/"),
-    url("/about.html"),
+    url("/about/"),
     ...slides.map((slide) => url(slideUrl(slide.id), slide.data.publishedAt)),
   ];
 
