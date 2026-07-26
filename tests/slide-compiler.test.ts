@@ -98,6 +98,28 @@ test("Unknown slide engines are rejected", async () => {
   );
 });
 
+test("Relative slide asset URLs are resolved after Markdown compilation", async () => {
+  const html = await compileSlide(
+    "reveal",
+    `
+![Diagram](./diagram.png)
+
+<img src="./photo.jpg?size=2#preview" alt="Photo">
+`,
+    {
+      resolveAssetUrl: (url) => `/built/${url.replace(/^\.\//, "")}`,
+    },
+  );
+  const { document } = parseHTML(html);
+  const images = document.querySelectorAll("img");
+
+  assert.equal(images[0].getAttribute("src"), "/built/diagram.png");
+  assert.equal(
+    images[1].getAttribute("src"),
+    "/built/photo.jpg?size=2#preview",
+  );
+});
+
 test("RevealMarkdown compilation restores the global DOM state", async () => {
   const globalNames = ["Node", "window", "document"] as const;
   const previousGlobals = globalNames.map((name) => ({

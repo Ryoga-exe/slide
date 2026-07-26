@@ -6,7 +6,8 @@ import { slideEngineNames } from "./lib/slide-engines";
 const slides = defineCollection({
   loader: glob({
     base: "./src/content/slides",
-    pattern: "**/*.md",
+    pattern: "**/index.md",
+    generateId: ({ entry }) => entry.replace(/\/index\.md$/, ""),
     retainBody: true,
     deferRender: true,
   }),

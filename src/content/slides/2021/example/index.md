@@ -227,7 +227,7 @@ Note: aaaaaaaaaa
 
 ## Image
 
-![Image](/assets/img/test.png)
+![Image](./test.png)
 
 ---
 

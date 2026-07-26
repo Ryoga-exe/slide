@@ -56,8 +56,8 @@ theme: black
 ## はい
 
 <div class="r-stack">
-  <img class="fragment" src="/assets/img/lang.png" />
-  <img class="fragment" src="/assets/img/kuromajutsu.png" width="60%"/>
+  <img class="fragment" src="./lang.png" />
+  <img class="fragment" src="./kuromajutsu.png" width="60%"/>
 </div>
 
 ---
@@ -147,15 +147,15 @@ CSS には乱数を得るための関数はない
 
 csswg-drafts の Issue に提案として上がってはいる
 
-![csswg-drafts](/assets/img/csswg.png)
+![csswg-drafts](./csswg.png)
 
 --
 
 mozilla の standards-positions にも上がっているが
 
 <div class="r-stack">
-  <img src="/assets/img/mozilla.png" />
-  <img class="fragment" src="/assets/img/mozilla2.png"/>
+  <img src="./mozilla.png" />
+  <img class="fragment" src="./mozilla2.png"/>
 </div>
 
 <span class="fragment">mozilla の見解：いらんやろ</span>

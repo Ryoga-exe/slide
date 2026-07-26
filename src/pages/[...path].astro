@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 import RevealSlideLayout from "src/layouts/RevealSlideLayout.astro";
+import { createSlideAssetUrlResolver } from "src/lib/slide-assets";
 import { compileSlide } from "src/lib/slide-engines";
 
 export async function getStaticPaths() {
@@ -29,7 +30,9 @@ switch (slide.data.engine) {
     throw new Error(`Unsupported slide engine: ${String(slide.data.engine)}`);
 }
 
-const html = await compileSlide(slide.data.engine, slide.body);
+const html = await compileSlide(slide.data.engine, slide.body, {
+  resolveAssetUrl: createSlideAssetUrlResolver(slide.id, slide.filePath),
+});
 ---
 
 <RevealSlideLayout

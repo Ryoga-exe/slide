@@ -33,7 +33,7 @@ reveal:
 - X (Twitter)/mixi2: [@Ryoga_exe](https://x.com/Ryoga_exe)
   </div>
 
-  <img src="/assets/img/icon.jpg" width="230" height="230" />
+  <img src="./icon.jpg" width="230" height="230" />
 </div>
 
 ---
@@ -47,9 +47,9 @@ reveal:
     <li class="fragment" data-fragment-index="2">その上でテトリスとかが動いた</li>
   </ul>
   <div class="r-stack">
-    <img src="/assets/img/veryl-css/cpu-fpga.jpg" >
-    <img class="fragment" src="/assets/img/veryl-css/cpu-uart.gif" data-fragment-index="1" >
-    <img class="fragment" src="/assets/img/veryl-css/cpu-tetris.gif" data-fragment-index="2" >
+    <img src="./cpu-fpga.jpg" >
+    <img class="fragment" src="./cpu-uart.gif" data-fragment-index="1" >
+    <img class="fragment" src="./cpu-tetris.gif" data-fragment-index="2" >
   </div>
 </div>
 
@@ -57,7 +57,7 @@ reveal:
 
 --
 
-<img src="/assets/img/veryl-css/veryl-logo.webp" />
+<img src="./veryl-logo.webp" />
 
 CPU を作る中で Veryl という\
 モダンなハードウェア記述言語に出会った
@@ -386,7 +386,7 @@ module Top (
 
 ## つくったもの
 
-<img class="octicon" src="/assets/github-mark.svg" height="40" width="40" alt="GitHub"> https://github.com/Ryoga-exe/veryl-css
+<img class="octicon" src="./github-mark.svg" height="40" width="40" alt="GitHub"> https://github.com/Ryoga-exe/veryl-css
 
 --
 
@@ -394,7 +394,7 @@ module Top (
 
 ## 何ができるか
 
-<img class="octicon" src="/assets/github-mark.svg" height="40" width="40" alt="GitHub"> https://github.com/Ryoga-exe/veryl-css
+<img class="octicon" src="./github-mark.svg" height="40" width="40" alt="GitHub"> https://github.com/Ryoga-exe/veryl-css
 
 - `always_comb` / `alawys_ff` / `if_reset` / `if` / `case` / `var`
 - 一部の組込み型
@@ -807,7 +807,7 @@ if(style(--foobar: 1): 10; else: 20;)
 
 ## まとめ
 
-<img class="octicon" src="/assets/github-mark.svg" height="40" width="40" alt="GitHub"> https://github.com/Ryoga-exe/veryl-css <img src="/assets/img/veryl-css/qrcode.png" width="100">
+<img class="octicon" src="./github-mark.svg" height="40" width="40" alt="GitHub"> https://github.com/Ryoga-exe/veryl-css <img src="./qrcode.png" width="100">
 
 - かなり無理矢理 CSS ターゲットを実装した
 - Veryl の IR で、ある程度遊ぶことができる

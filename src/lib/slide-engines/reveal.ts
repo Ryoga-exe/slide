@@ -1,6 +1,7 @@
 import { parseHTML } from "linkedom";
 import type { RevealApi, RevealConfig } from "reveal.js";
 import RevealMarkdown from "reveal.js/plugin/markdown";
+import type { SlideCompileOptions } from "./index.ts";
 
 const markdownConfig: RevealConfig = {
   markdown: {
@@ -12,8 +13,11 @@ const markdownConfig: RevealConfig = {
 
 let compilationQueue: Promise<void> = Promise.resolve();
 
-export function compileRevealSlides(source: string): Promise<string> {
-  const compilation = compilationQueue.then(() => compile(source));
+export function compileRevealSlides(
+  source: string,
+  options: SlideCompileOptions,
+): Promise<string> {
+  const compilation = compilationQueue.then(() => compile(source, options));
   compilationQueue = compilation.then(
     () => undefined,
     () => undefined,
@@ -21,7 +25,10 @@ export function compileRevealSlides(source: string): Promise<string> {
   return compilation;
 }
 
-async function compile(source: string): Promise<string> {
+async function compile(
+  source: string,
+  options: SlideCompileOptions,
+): Promise<string> {
   const { document, window, Node } = parseHTML(`
     <!doctype html>
     <html>
@@ -73,9 +80,40 @@ async function compile(source: string): Promise<string> {
       await import("reveal.js/plugin/highlight");
     await RevealHighlight().init!(buildDeck);
 
+    rewriteAssetUrls(slidesElement, options.resolveAssetUrl);
+
     return slidesElement.innerHTML;
   } finally {
     restoreBrowserGlobals();
+  }
+}
+
+const assetUrlAttributes = [
+  "src",
+  "poster",
+  "data-src",
+  "data-background-image",
+  "data-background-video",
+  "data-background-iframe",
+] as const;
+
+function rewriteAssetUrls(
+  root: HTMLElement,
+  resolveAssetUrl: SlideCompileOptions["resolveAssetUrl"],
+): void {
+  if (!resolveAssetUrl) return;
+
+  for (const attribute of assetUrlAttributes) {
+    for (const element of root.querySelectorAll<HTMLElement>(
+      `[${attribute}]`,
+    )) {
+      if (element.closest("pre code")) continue;
+
+      const url = element.getAttribute(attribute);
+      if (url !== null) {
+        element.setAttribute(attribute, resolveAssetUrl(url));
+      }
+    }
   }
 }
 
