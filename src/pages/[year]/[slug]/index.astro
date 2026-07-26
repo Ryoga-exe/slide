@@ -2,20 +2,28 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import SlideLayout from "src/layouts/SlideLayout.astro";
 import { compileSlide } from "src/lib/slide-engines";
-import { parseSlideId } from "src/lib/slide-paths";
 
 export async function getStaticPaths() {
   const slides = await getCollection("slides");
   return slides.map((slide) => {
-    const params = parseSlideId(slide.id);
-    if (String(slide.data.publishedAt.getUTCFullYear()) !== params.year) {
+    const match = slide.id.match(
+      /^(?<year>\d{4})\/(?<slug>[a-z0-9]+(?:-[a-z0-9]+)*)$/,
+    );
+    if (!match?.groups) {
       throw new Error(
-        `Slide "${slide.id}" must have a publishedAt date in ${params.year}.`,
+        `Invalid slide id "${slide.id}". Expected a path like "2026/my-slide".`,
+      );
+    }
+
+    const { year, slug } = match.groups;
+    if (String(slide.data.publishedAt.getUTCFullYear()) !== year) {
+      throw new Error(
+        `Slide "${slide.id}" must have a publishedAt date in ${year}.`,
       );
     }
 
     return {
-      params,
+      params: { year, slug },
       props: { slide },
     };
   });

@@ -1,9 +1,13 @@
 import rss from "@astrojs/rss";
+import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { siteConfig } from "src/config";
-import { slideUrl } from "src/lib/slide-paths";
 
-export async function GET(context: { site?: URL }) {
+export const GET: APIRoute = async ({ site }) => {
+  if (!site) {
+    throw new Error("Astro site config is required to generate the feed.");
+  }
+
   const slides = (await getCollection("slides")).sort(
     (left, right) =>
       right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
@@ -12,13 +16,13 @@ export async function GET(context: { site?: URL }) {
   return rss({
     title: siteConfig.title,
     description: siteConfig.description,
-    site: context.site ?? new URL(siteConfig.url),
+    site,
     items: slides.map((slide) => ({
       title: slide.data.title,
       description: slide.data.description,
       pubDate: slide.data.publishedAt,
-      link: slideUrl(slide.id),
+      link: `/${slide.id}/`,
     })),
     customData: "<language>ja</language>",
   });
-}
+};

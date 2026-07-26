@@ -1,12 +1,16 @@
 ---
 import { siteConfig } from "src/config";
 import GitHubIcon from "./GitHubIcon.astro";
+
+if (!Astro.site) {
+  throw new Error("Astro site config is required to render the header.");
+}
 ---
 
 <header>
   <div class="container">
     <a class="brand" href="/">
-      Slide<span>{new URL(siteConfig.url).host}</span>
+      Slide<span>{Astro.site.host}</span>
     </a>
     <a
       href={siteConfig.github}

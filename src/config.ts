@@ -4,7 +4,6 @@ export const siteConfig = {
   title: "slide",
   author: "Ryoga.exe",
   description: "Presentation slides powered by reveal.js",
-  url: "https://slide.ryoga.dev",
   lang: "ja",
   locale: "ja_JP",
   github: "https://github.com/Ryoga-exe/slide",
