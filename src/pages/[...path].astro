@@ -5,28 +5,11 @@ import { compileSlide } from "src/lib/slide-engines";
 
 export async function getStaticPaths() {
   const slides = await getCollection("slides");
-  return slides.map((slide) => {
-    const match = slide.id.match(
-      /^(?<year>\d{4})\/(?<slug>[a-z0-9]+(?:-[a-z0-9]+)*)$/,
-    );
-    if (!match?.groups) {
-      throw new Error(
-        `Invalid slide id "${slide.id}". Expected a path like "2026/my-slide".`,
-      );
-    }
 
-    const { year, slug } = match.groups;
-    if (String(slide.data.publishedAt.getUTCFullYear()) !== year) {
-      throw new Error(
-        `Slide "${slide.id}" must have a publishedAt date in ${year}.`,
-      );
-    }
-
-    return {
-      params: { year, slug },
-      props: { slide },
-    };
-  });
+  return slides.map((slide) => ({
+    params: { path: slide.id },
+    props: { slide },
+  }));
 }
 
 type Props = {
