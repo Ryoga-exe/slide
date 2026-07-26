@@ -1,7 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
-import SlideLayout from "../../../layouts/SlideLayout.astro";
-import { parseSlideId } from "../../../lib/slide-paths";
+import SlideLayout from "src/layouts/SlideLayout.astro";
+import { parseSlideId } from "src/lib/slide-paths";
 
 export async function getStaticPaths() {
   const slides = await getCollection("slides");

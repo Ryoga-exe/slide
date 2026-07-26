@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { slideUrl } from "../lib/slide-paths";
-import "../styles/top.scss";
+import BaseLayout from "src/layouts/BaseLayout.astro";
+import { slideUrl } from "src/lib/slide-paths";
+import "src/styles/top.scss";
 
 const slides = (await getCollection("slides")).sort(
   (left, right) =>

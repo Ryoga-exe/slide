@@ -1,6 +1,6 @@
 import { getCollection } from "astro:content";
-import { siteConfig } from "../config";
-import { slideUrl } from "../lib/slide-paths";
+import { siteConfig } from "src/config";
+import { slideUrl } from "src/lib/slide-paths";
 
 function url(pathname: string, lastModified?: Date): string {
   const location = new URL(pathname, siteConfig.url).href;

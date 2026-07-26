@@ -1,7 +1,7 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
-import { siteConfig } from "../config";
-import { slideUrl } from "../lib/slide-paths";
+import { siteConfig } from "src/config";
+import { slideUrl } from "src/lib/slide-paths";
 
 export async function GET(context: { site?: URL }) {
   const slides = (await getCollection("slides")).sort(
