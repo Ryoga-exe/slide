@@ -1,5 +1,4 @@
 ---
-slug: example
 engine: reveal
 title: Example slide
 description: reveal.jsの機能を紹介するサンプルスライド

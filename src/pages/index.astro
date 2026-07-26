@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { slideUrl } from "../lib/slide-paths";
 import "../styles/top.scss";
 
 const slides = (await getCollection("slides")).sort(
@@ -16,14 +17,14 @@ const slides = (await getCollection("slides")).sort(
         <article>
           <a
             class="article-link"
-            href={`/posts/${slide.id}.html`}
+            href={slideUrl(slide.id)}
             aria-label={`${slide.data.title}を見る`}
           />
           <time datetime={slide.data.publishedAt.toISOString()}>
             {slide.data.publishedAt.toLocaleDateString("ja-JP")}
           </time>
           <h2>
-            <a href={`/posts/${slide.id}.html`}>{slide.data.title}</a>
+            <a href={slideUrl(slide.id)}>{slide.data.title}</a>
           </h2>
           <p>{slide.data.description}</p>
         </article>

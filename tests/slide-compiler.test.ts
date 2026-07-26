@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { parseHTML } from "linkedom";
 import { compileSlide } from "../src/lib/slide-engines/index.ts";
+import { parseSlideId, slideUrl } from "../src/lib/slide-paths.ts";
 
 test("RevealMarkdown compiles horizontal and vertical sections", async () => {
   const html = await compileSlide(
@@ -74,4 +75,13 @@ test("Unknown slide engines are rejected", async () => {
     compileSlide("unknown", "# Slide"),
     /Unsupported slide engine: unknown/,
   );
+});
+
+test("Slide paths are derived from content collection ids", () => {
+  assert.deepEqual(parseSlideId("2026/my-slide"), {
+    year: "2026",
+    slug: "my-slide",
+  });
+  assert.equal(slideUrl("2026/my-slide"), "/2026/my-slide/");
+  assert.throws(() => parseSlideId("my-slide"), /Invalid slide id/);
 });

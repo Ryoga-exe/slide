@@ -1,0 +1,34 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import SlideLayout from "../../../layouts/SlideLayout.astro";
+import { parseSlideId } from "../../../lib/slide-paths";
+
+export async function getStaticPaths() {
+  const slides = await getCollection("slides");
+  return slides.map((slide) => ({
+    params: parseSlideId(slide.id),
+    props: { slide },
+  }));
+}
+
+type Props = {
+  slide: CollectionEntry<"slides">;
+};
+
+const { slide } = Astro.props;
+const { Content } = await render(slide);
+---
+
+{
+  slide.data.engine === "reveal" && (
+    <SlideLayout
+      title={slide.data.title}
+      description={slide.data.description}
+      theme={slide.data.theme}
+      reveal={slide.data.reveal}
+      embedTwitter={slide.data.embedTwitter}
+    >
+      <Content />
+    </SlideLayout>
+  )
+}

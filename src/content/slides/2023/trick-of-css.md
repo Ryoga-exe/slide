@@ -1,5 +1,4 @@
 ---
-slug: trick-of-css
 engine: reveal
 title: CSS 黒魔術
 description: CSSだけでモンテカルロ法を実装する

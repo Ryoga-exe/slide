@@ -4,6 +4,6 @@ export default defineConfig({
   site: "https://slide.ryoga.dev",
   output: "static",
   build: {
-    format: "file",
+    format: "preserve",
   },
 });

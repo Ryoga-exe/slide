@@ -6,7 +6,6 @@ import { slidesLoader } from "./loaders/slides";
 const slides = defineCollection({
   loader: slidesLoader(),
   schema: z.object({
-    slug: z.string(),
     engine: z.enum(slideEngineNames),
     title: z.string(),
     description: z.string(),

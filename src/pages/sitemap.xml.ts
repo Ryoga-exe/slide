@@ -1,5 +1,6 @@
 import { getCollection } from "astro:content";
 import { siteConfig } from "../config";
+import { slideUrl } from "../lib/slide-paths";
 
 function url(pathname: string, lastModified?: Date): string {
   const location = new URL(pathname, siteConfig.url).href;
@@ -14,9 +15,7 @@ export async function GET() {
   const entries = [
     url("/"),
     url("/about.html"),
-    ...slides.map((slide) =>
-      url(`/posts/${slide.id}.html`, slide.data.publishedAt),
-    ),
+    ...slides.map((slide) => url(slideUrl(slide.id), slide.data.publishedAt)),
   ];
 
   return new Response(

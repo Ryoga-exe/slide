@@ -1,6 +1,7 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import { siteConfig } from "../config";
+import { slideUrl } from "../lib/slide-paths";
 
 export async function GET(context: { site?: URL }) {
   const slides = (await getCollection("slides")).sort(
@@ -16,7 +17,7 @@ export async function GET(context: { site?: URL }) {
       title: slide.data.title,
       description: slide.data.description,
       pubDate: slide.data.publishedAt,
-      link: `/posts/${slide.id}.html`,
+      link: slideUrl(slide.id),
     })),
     customData: "<language>ja</language>",
   });

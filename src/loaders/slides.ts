@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import type { Loader } from "astro/loaders";
 import { parseFrontmatter } from "astro/markdown";
 import { compileSlide } from "../lib/slide-engines";
+import { parseSlideId } from "../lib/slide-paths";
 
 function normalizePath(path: string): string {
   return path.split(sep).join("/");
@@ -22,12 +23,20 @@ export function slidesLoader(): Loader {
       async function loadFile(filePath: string, oldId?: string) {
         const source = await readFile(filePath, "utf8");
         const { content, frontmatter } = parseFrontmatter(source);
-        const fallbackId = normalizePath(relative(slidesPath, filePath))
-          .replace(/\.md$/i, "")
-          .replace(/^\d{4}-\d{2}-\d{2}-/, "");
-        const id =
-          typeof frontmatter.slug === "string" ? frontmatter.slug : fallbackId;
+        const id = normalizePath(relative(slidesPath, filePath)).replace(
+          /\.md$/i,
+          "",
+        );
+        const { year } = parseSlideId(id);
         const data = await parseData({ id, data: frontmatter, filePath });
+        if (
+          !(data.publishedAt instanceof Date) ||
+          String(data.publishedAt.getUTCFullYear()) !== year
+        ) {
+          throw new Error(
+            `Slide "${id}" must have a publishedAt date in ${year}.`,
+          );
+        }
         const html = await compileSlide(data.engine, content);
 
         if (oldId && oldId !== id) {

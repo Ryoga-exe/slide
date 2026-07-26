@@ -1,33 +1,21 @@
 ---
-import { getCollection, render, type CollectionEntry } from "astro:content";
-import SlideLayout from "../../layouts/SlideLayout.astro";
+import { getCollection } from "astro:content";
+import { parseSlideId, slideUrl } from "../../lib/slide-paths";
 
 export async function getStaticPaths() {
   const slides = await getCollection("slides");
-  return slides.map((slide) => ({
-    params: { slug: slide.id },
-    props: { slide },
-  }));
+  return slides.map((slide) => {
+    const { slug } = parseSlideId(slide.id);
+    return {
+      params: { slug },
+      props: { destination: slideUrl(slide.id) },
+    };
+  });
 }
 
 type Props = {
-  slide: CollectionEntry<"slides">;
+  destination: string;
 };
 
-const { slide } = Astro.props;
-const { Content } = await render(slide);
+return Astro.redirect(Astro.props.destination, 301);
 ---
-
-{
-  slide.data.engine === "reveal" && (
-    <SlideLayout
-      title={slide.data.title}
-      description={slide.data.description}
-      theme={slide.data.theme}
-      reveal={slide.data.reveal}
-      embedTwitter={slide.data.embedTwitter}
-    >
-      <Content />
-    </SlideLayout>
-  )
-}
