@@ -647,7 +647,7 @@ module seg7 (
 
 --
 
-<iframe data-src="/assets/img/veryl-css/html/7seg.html" data-preload style="background: white;" width="100%" height="500" />
+<iframe data-src="/assets/2026/veryl-css/7seg.html" data-preload style="background: white;" width="100%" height="500" />
 
 --
 
@@ -708,11 +708,11 @@ body {
 
 --
 
-<iframe data-src="/assets/img/veryl-css/html/counter.html" data-preload style="background: white;" width="100%" height="500" />
+<iframe data-src="/assets/2026/veryl-css/counter.html" data-preload style="background: white;" width="100%" height="500" />
 
 --
 
-<iframe data-src="/assets/img/veryl-css/html/barcode.html" data-preload style="background: white;" width="100%" height="500" />
+<iframe data-src="/assets/2026/veryl-css/barcode.html" data-preload style="background: white;" width="100%" height="500" />
 
 ---
 
