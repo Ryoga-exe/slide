@@ -8,4 +8,10 @@ export default defineConfig({
     // Slide Markdown is compiled by RevealMarkdown during static page generation.
     syntaxHighlight: false,
   },
+  vite: {
+    build: {
+      // Reveal Highlight includes the full Highlight.js language bundle.
+      chunkSizeWarningLimit: 1200,
+    },
+  },
 });

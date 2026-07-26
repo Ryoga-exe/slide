@@ -75,3 +75,16 @@ test("Unknown slide engines are rejected", async () => {
     /Unsupported slide engine: unknown/,
   );
 });
+
+test("RevealMarkdown compilation restores the global DOM state", async () => {
+  const hadNode = Object.hasOwn(globalThis, "Node");
+  const previousNode = globalThis.Node;
+
+  await Promise.all([
+    compileSlide("reveal", "# One"),
+    compileSlide("reveal", "# Two"),
+  ]);
+
+  assert.equal(Object.hasOwn(globalThis, "Node"), hadNode);
+  assert.equal(globalThis.Node, previousNode);
+});

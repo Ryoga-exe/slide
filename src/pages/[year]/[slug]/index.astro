@@ -1,6 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
-import SlideLayout from "src/layouts/SlideLayout.astro";
+import RevealSlideLayout from "src/layouts/RevealSlideLayout.astro";
 import { compileSlide } from "src/lib/slide-engines";
 
 export async function getStaticPaths() {
@@ -37,19 +37,24 @@ const { slide } = Astro.props;
 if (slide.body === undefined) {
   throw new Error(`Slide "${slide.id}" has no Markdown body.`);
 }
+
+switch (slide.data.engine) {
+  case "reveal":
+    break;
+  default:
+    slide.data.engine satisfies never;
+    throw new Error(`Unsupported slide engine: ${String(slide.data.engine)}`);
+}
+
 const html = await compileSlide(slide.data.engine, slide.body);
 ---
 
-{
-  slide.data.engine === "reveal" && (
-    <SlideLayout
-      title={slide.data.title}
-      description={slide.data.description}
-      theme={slide.data.theme}
-      reveal={slide.data.reveal}
-      embedTwitter={slide.data.embedTwitter}
-    >
-      <Fragment set:html={html} />
-    </SlideLayout>
-  )
-}
+<RevealSlideLayout
+  title={slide.data.title}
+  description={slide.data.description}
+  theme={slide.data.theme}
+  reveal={slide.data.reveal}
+  embedTwitter={slide.data.embedTwitter}
+>
+  <Fragment set:html={html} />
+</RevealSlideLayout>

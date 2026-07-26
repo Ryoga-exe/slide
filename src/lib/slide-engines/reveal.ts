@@ -10,7 +10,18 @@ const markdownConfig: RevealConfig = {
   },
 };
 
-export async function compileRevealSlides(source: string): Promise<string> {
+let compilationQueue: Promise<void> = Promise.resolve();
+
+export function compileRevealSlides(source: string): Promise<string> {
+  const compilation = compilationQueue.then(() => compile(source));
+  compilationQueue = compilation.then(
+    () => undefined,
+    () => undefined,
+  );
+  return compilation;
+}
+
+async function compile(source: string): Promise<string> {
   const { document, Node } = parseHTML(`
     <div class="reveal">
       <div class="slides">
@@ -19,32 +30,43 @@ export async function compileRevealSlides(source: string): Promise<string> {
     </div>
   `);
 
-  // RevealMarkdown runs in a browser normally and reads this global while
-  // applying .element and .slide directives.
-  globalThis.Node ??= Node;
+  // RevealMarkdown reads this browser global while applying .element and
+  // .slide directives. Compilations are serialized so it can be restored
+  // safely after each run.
+  const hadNode = "Node" in globalThis;
+  const previousNode = globalThis.Node;
+  globalThis.Node = Node;
 
-  const revealElement = document.querySelector<HTMLElement>(".reveal")!;
-  const slidesElement = document.querySelector<HTMLElement>(".slides")!;
-  const markdownSection =
-    slidesElement.querySelector<HTMLElement>("[data-markdown]")!;
-  const template = document.createElement("textarea");
+  try {
+    const revealElement = document.querySelector<HTMLElement>(".reveal")!;
+    const slidesElement = document.querySelector<HTMLElement>(".slides")!;
+    const markdownSection =
+      slidesElement.querySelector<HTMLElement>("[data-markdown]")!;
+    const template = document.createElement("textarea");
 
-  template.setAttribute("data-template", "");
-  template.textContent = source;
-  markdownSection.append(template);
+    template.setAttribute("data-template", "");
+    template.textContent = source;
+    markdownSection.append(template);
 
-  const plugin = RevealMarkdown();
-  const buildDeck = {
-    getRevealElement: () => revealElement,
-    getConfig: () => markdownConfig,
-  } as RevealApi;
+    const plugin = RevealMarkdown();
+    const buildDeck = {
+      getRevealElement: () => revealElement,
+      getConfig: () => markdownConfig,
+    } as RevealApi;
 
-  await plugin.init!(buildDeck);
+    await plugin.init!(buildDeck);
 
-  for (const section of slidesElement.querySelectorAll("section")) {
-    section.removeAttribute("data-markdown");
-    section.removeAttribute("data-markdown-parsed");
+    for (const section of slidesElement.querySelectorAll("section")) {
+      section.removeAttribute("data-markdown");
+      section.removeAttribute("data-markdown-parsed");
+    }
+
+    return slidesElement.innerHTML;
+  } finally {
+    if (hadNode) {
+      globalThis.Node = previousNode;
+    } else {
+      Reflect.deleteProperty(globalThis, "Node");
+    }
   }
-
-  return slidesElement.innerHTML;
 }
