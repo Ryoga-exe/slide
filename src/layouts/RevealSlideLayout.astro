@@ -52,10 +52,10 @@ const themeStyles = theme === "white" ? whiteTheme : blackTheme;
 
     <script>
       import Reveal from "reveal.js";
-      import RevealHighlight from "reveal.js/plugin/highlight";
       import RevealMath from "reveal.js/plugin/math";
       import RevealNotes from "reveal.js/plugin/notes";
       import RevealZoom from "reveal.js/plugin/zoom";
+      import { revealCodeFragments } from "src/lib/reveal-code-fragments";
 
       const root = document.querySelector<HTMLElement>(".reveal");
       if (root) {
@@ -63,7 +63,7 @@ const themeStyles = theme === "white" ? whiteTheme : blackTheme;
         const deck = new Reveal(root, {
           ...options,
           plugins: [
-            RevealHighlight,
+            revealCodeFragments,
             RevealNotes,
             RevealMath.MathJax3,
             RevealZoom,

@@ -22,20 +22,27 @@ export function compileRevealSlides(source: string): Promise<string> {
 }
 
 async function compile(source: string): Promise<string> {
-  const { document, Node } = parseHTML(`
-    <div class="reveal">
-      <div class="slides">
-        <section data-markdown></section>
-      </div>
-    </div>
+  const { document, window, Node } = parseHTML(`
+    <!doctype html>
+    <html>
+      <head></head>
+      <body>
+        <div class="reveal">
+          <div class="slides">
+            <section data-markdown></section>
+          </div>
+        </div>
+      </body>
+    </html>
   `);
 
-  // RevealMarkdown reads this browser global while applying .element and
-  // .slide directives. Compilations are serialized so it can be restored
-  // safely after each run.
-  const hadNode = "Node" in globalThis;
-  const previousNode = globalThis.Node;
-  globalThis.Node = Node;
+  // Reveal plugins read these browser globals. Compilations are serialized so
+  // they can be restored safely after each run.
+  const restoreBrowserGlobals = installBrowserGlobals({
+    Node,
+    window,
+    document,
+  });
 
   try {
     const revealElement = document.querySelector<HTMLElement>(".reveal")!;
@@ -52,7 +59,8 @@ async function compile(source: string): Promise<string> {
     const buildDeck = {
       getRevealElement: () => revealElement,
       getConfig: () => markdownConfig,
-    } as RevealApi;
+      on: () => undefined,
+    } as unknown as RevealApi;
 
     await plugin.init!(buildDeck);
 
@@ -61,12 +69,34 @@ async function compile(source: string): Promise<string> {
       section.removeAttribute("data-markdown-parsed");
     }
 
+    const { default: RevealHighlight } =
+      await import("reveal.js/plugin/highlight");
+    await RevealHighlight().init!(buildDeck);
+
     return slidesElement.innerHTML;
   } finally {
-    if (hadNode) {
-      globalThis.Node = previousNode;
-    } else {
-      Reflect.deleteProperty(globalThis, "Node");
-    }
+    restoreBrowserGlobals();
   }
+}
+
+function installBrowserGlobals(globals: Record<string, unknown>): () => void {
+  const previous = Object.entries(globals).map(([name, value]) => {
+    const state = {
+      name,
+      hadOwnProperty: Object.hasOwn(globalThis, name),
+      value: Reflect.get(globalThis, name),
+    };
+    Reflect.set(globalThis, name, value);
+    return state;
+  });
+
+  return () => {
+    for (const state of previous) {
+      if (state.hadOwnProperty) {
+        Reflect.set(globalThis, state.name, state.value);
+      } else {
+        Reflect.deleteProperty(globalThis, state.name);
+      }
+    }
+  };
 }

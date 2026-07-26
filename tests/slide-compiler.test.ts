@@ -55,10 +55,32 @@ Note: Remember this.
   assert.equal(section.querySelector("li")!.getAttribute("class"), "fragment");
   assert.equal(
     section.querySelector("code")!.getAttribute("data-line-numbers"),
-    "1|2",
+    "1",
   );
   assert.equal(
     section.querySelector("code")!.getAttribute("data-ln-start-from"),
+    "10",
+  );
+  const codeBlocks = section.querySelectorAll("pre > code");
+  assert.equal(codeBlocks.length, 2);
+  assert.equal(codeBlocks[0].classList.contains("hljs"), true);
+  assert.equal(codeBlocks[1].classList.contains("fragment"), true);
+  assert.equal(codeBlocks[1].getAttribute("data-line-numbers"), "2");
+  assert.equal(codeBlocks[0].querySelectorAll("tr").length, 2);
+  assert.equal(
+    codeBlocks[0].querySelector("tr")!.classList.contains("highlight-line"),
+    true,
+  );
+  assert.equal(
+    codeBlocks[1]
+      .querySelectorAll("tr")[1]
+      .classList.contains("highlight-line"),
+    true,
+  );
+  assert.equal(
+    codeBlocks[0]
+      .querySelector("td.hljs-ln-numbers")!
+      .getAttribute("data-line-number"),
     "10",
   );
   assert.equal(
@@ -77,14 +99,23 @@ test("Unknown slide engines are rejected", async () => {
 });
 
 test("RevealMarkdown compilation restores the global DOM state", async () => {
-  const hadNode = Object.hasOwn(globalThis, "Node");
-  const previousNode = globalThis.Node;
+  const globalNames = ["Node", "window", "document"] as const;
+  const previousGlobals = globalNames.map((name) => ({
+    name,
+    hadOwnProperty: Object.hasOwn(globalThis, name),
+    value: Reflect.get(globalThis, name),
+  }));
 
   await Promise.all([
     compileSlide("reveal", "# One"),
     compileSlide("reveal", "# Two"),
   ]);
 
-  assert.equal(Object.hasOwn(globalThis, "Node"), hadNode);
-  assert.equal(globalThis.Node, previousNode);
+  for (const previous of previousGlobals) {
+    assert.equal(
+      Object.hasOwn(globalThis, previous.name),
+      previous.hadOwnProperty,
+    );
+    assert.equal(Reflect.get(globalThis, previous.name), previous.value);
+  }
 });
