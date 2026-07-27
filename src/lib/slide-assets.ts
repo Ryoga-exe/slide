@@ -1,7 +1,7 @@
 import { posix } from "node:path";
 
 const slideAssets = import.meta.glob<string>(
-  "/src/content/slides/**/*.{avif,gif,jpeg,jpg,png,svg,webp}",
+  "/src/content/slides/**/*.{avif,gif,jpeg,jpg,pdf,png,svg,webp}",
   {
     eager: true,
     import: "default",

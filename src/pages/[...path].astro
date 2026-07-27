@@ -1,5 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
+import type { RevealConfig } from "reveal.js";
+import PdfSlideLayout from "src/layouts/PdfSlideLayout.astro";
 import RevealSlideLayout from "src/layouts/RevealSlideLayout.astro";
 import { createSlideAssetUrlResolver } from "src/lib/slide-assets";
 import { compileSlide } from "src/lib/slide-engines";
@@ -18,29 +20,55 @@ type Props = {
 };
 
 const { slide } = Astro.props;
-if (slide.body === undefined) {
-  throw new Error(`Slide "${slide.id}" has no Markdown body.`);
-}
+const resolveAssetUrl = createSlideAssetUrlResolver(slide.id, slide.filePath);
 
-switch (slide.data.engine) {
-  case "reveal":
-    break;
-  default:
-    slide.data.engine satisfies never;
-    throw new Error(`Unsupported slide engine: ${String(slide.data.engine)}`);
-}
+let content:
+  | {
+      engine: "reveal";
+      html: string;
+      theme: "black" | "white";
+      reveal: Partial<RevealConfig>;
+      embedTwitter: boolean;
+    }
+  | { engine: "pdf"; url: string };
 
-const html = await compileSlide(slide.data.engine, slide.body, {
-  resolveAssetUrl: createSlideAssetUrlResolver(slide.id, slide.filePath),
-});
+if (slide.data.engine === "reveal") {
+  if (slide.body === undefined) {
+    throw new Error(`Slide "${slide.id}" has no Markdown body.`);
+  }
+
+  content = {
+    engine: "reveal",
+    html: await compileSlide("reveal", slide.body, { resolveAssetUrl }),
+    theme: slide.data.theme,
+    reveal: slide.data.reveal,
+    embedTwitter: slide.data.embedTwitter,
+  };
+} else {
+  content = {
+    engine: "pdf",
+    url: resolveAssetUrl(slide.data.file),
+  };
+}
 ---
 
-<RevealSlideLayout
-  title={slide.data.title}
-  description={slide.data.description}
-  theme={slide.data.theme}
-  reveal={slide.data.reveal}
-  embedTwitter={slide.data.embedTwitter}
->
-  <Fragment set:html={html} />
-</RevealSlideLayout>
+{
+  content.engine === "reveal" ? (
+    <RevealSlideLayout
+      title={slide.data.title}
+      description={slide.data.description}
+      theme={content.theme}
+      reveal={content.reveal}
+      embedTwitter={content.embedTwitter}
+    >
+      <Fragment set:html={content.html} />
+    </RevealSlideLayout>
+  ) : content.engine === "pdf" ? (
+    <PdfSlideLayout
+      title={slide.data.title}
+      description={slide.data.description}
+      url={content.url}
+      downloadName={`${slide.id.split("/").at(-1)}.pdf`}
+    />
+  ) : null
+}

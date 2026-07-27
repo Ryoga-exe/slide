@@ -16,8 +16,37 @@ npm run dev
 
 ## Slides
 
-Place slides at `src/content/slides/YYYY/slug.md`. The content path becomes
+Place each slide in `src/content/slides/YYYY/slug/`. The content path becomes
 the public URL `/YYYY/slug/`.
+
+Reveal slides use `index.md`:
+
+```yaml
+---
+engine: reveal
+title: Example
+description: Example slide
+publishedAt: 2026-07-27
+---
+```
+
+PDF slides use an `index.md` metadata file and a colocated PDF:
+
+```text
+src/content/slides/2026/example/
+├── index.md
+└── slides.pdf
+```
+
+```yaml
+---
+engine: pdf
+title: Example
+description: Example PDF slide
+publishedAt: 2026-07-27
+file: ./slides.pdf
+---
+```
 
 ## Deployment
 

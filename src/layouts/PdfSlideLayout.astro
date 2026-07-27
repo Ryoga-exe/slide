@@ -1,0 +1,42 @@
+---
+import Head from "src/components/Head.astro";
+import { siteConfig } from "src/config";
+import "src/styles/global.scss";
+import "src/styles/pdf-slide.scss";
+
+type Props = {
+  title: string;
+  description: string;
+  url: string;
+  downloadName: string;
+};
+
+const { title, description, url, downloadName } = Astro.props;
+---
+
+<!doctype html>
+<html lang={siteConfig.lang}>
+  <head>
+    <Head title={title} description={description} type="article" />
+  </head>
+  <body class="pdf-slide">
+    <header class="pdf-toolbar">
+      <h1>{title}</h1>
+      <nav aria-label="PDFの操作">
+        <a href={url} target="_blank" rel="noopener">PDFを開く</a>
+        <a href={url} download={downloadName}>ダウンロード</a>
+      </nav>
+    </header>
+    <object
+      class="pdf-viewer"
+      data={url}
+      type="application/pdf"
+      aria-label={`${title}のPDF`}
+    >
+      <p class="pdf-fallback">
+        このブラウザではPDFを埋め込み表示できません。
+        <a href={url}>PDFを開いてください。</a>
+      </p>
+    </object>
+  </body>
+</html>

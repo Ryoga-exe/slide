@@ -1,7 +1,12 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { slideEngineNames } from "./lib/slide-engines";
+
+const slideMetadata = {
+  title: z.string(),
+  description: z.string(),
+  publishedAt: z.coerce.date(),
+};
 
 const slides = defineCollection({
   loader: glob({
@@ -11,24 +16,36 @@ const slides = defineCollection({
     retainBody: true,
     deferRender: true,
   }),
-  schema: z
-    .object({
-      engine: z.enum(slideEngineNames),
-      title: z.string(),
-      description: z.string(),
-      publishedAt: z.coerce.date(),
-      theme: z.enum(["black", "white"]).default("black"),
-      embedTwitter: z.boolean().default(false),
-      reveal: z
-        .object({
-          transition: z
-            .enum(["none", "fade", "slide", "convex", "concave", "zoom"])
-            .optional(),
-        })
-        .strict()
-        .default({}),
-    })
-    .strict(),
+  schema: z.discriminatedUnion("engine", [
+    z
+      .object({
+        ...slideMetadata,
+        engine: z.literal("reveal"),
+        theme: z.enum(["black", "white"]).default("black"),
+        embedTwitter: z.boolean().default(false),
+        reveal: z
+          .object({
+            transition: z
+              .enum(["none", "fade", "slide", "convex", "concave", "zoom"])
+              .optional(),
+          })
+          .strict()
+          .default({}),
+      })
+      .strict(),
+    z
+      .object({
+        ...slideMetadata,
+        engine: z.literal("pdf"),
+        file: z
+          .string()
+          .regex(
+            /^\.\/[^/?#]+\.pdf$/,
+            "PDF file must be a relative path such as ./slides.pdf",
+          ),
+      })
+      .strict(),
+  ]),
 });
 
 export const collections = { slides };
