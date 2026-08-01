@@ -1,0 +1,79 @@
+---
+import Head from "src/components/Head.astro";
+import { siteConfig } from "src/config";
+import "src/styles/global.scss";
+import "src/styles/pdf-slide.scss";
+
+type Props = {
+  title: string;
+  description: string;
+  url: string;
+  downloadName: string;
+};
+
+const { title, description, url, downloadName } = Astro.props;
+---
+
+<!doctype html>
+<html lang={siteConfig.lang}>
+  <head>
+    <Head title={title} description={description} type="article" />
+  </head>
+  <body class="pdf-slide">
+    <main class="pdf-viewer-shell">
+      <div class="pdf-fallback">
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <nav aria-label="PDFの操作">
+          <a href={url} target="_blank" rel="noopener">PDFを開く</a>
+          <a href={url} download={downloadName}>ダウンロード</a>
+        </nav>
+      </div>
+      <pdfjs-viewer-element
+        src={url}
+        zoom="page-fit"
+        pagemode="none"
+        viewer-css-theme="DARK"
+        iframe-title={`${title}のPDFスライド`}></pdfjs-viewer-element>
+    </main>
+
+    <script>
+      import "pdfjs-viewer-element";
+
+      type PdfViewerElement = HTMLElement & {
+        iframe: HTMLIFrameElement;
+        initPromise: Promise<unknown>;
+        injectViewerStyles(styles: string): Promise<void>;
+      };
+
+      const viewer = document.querySelector<PdfViewerElement>(
+        "pdfjs-viewer-element",
+      );
+
+      if (viewer) {
+        await viewer.injectViewerStyles(`
+          #editorModeButtons,
+          #secondaryOpenFile,
+          #viewBookmark,
+          #viewBookmarkSeparator {
+            display: none !important;
+          }
+        `);
+
+        await viewer.initPromise;
+
+        const viewerDocument = viewer.iframe.contentDocument;
+        const toolbar = viewerDocument?.querySelector("#toolbarViewerRight");
+        const presentationButton =
+          viewerDocument?.querySelector<HTMLButtonElement>("#presentationMode");
+
+        if (toolbar && presentationButton) {
+          presentationButton.classList.remove("labeled");
+          presentationButton.title = "発表モード";
+          presentationButton.setAttribute("aria-label", "発表モード");
+          toolbar.prepend(presentationButton);
+        }
+      }
+    </script>
+  </body>
+</html>

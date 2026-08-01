@@ -1,21 +1,59 @@
 # Slide
 
-Presentation slides powered by Jekyll & reveal.js
+https://slide.ryoga.dev
 
-スライドを公開するためのものです
+## Local development
 
-[ここ](https://slide.ryoga.dev)から見られます！
-
-# Local development
-
-```
-bundle exec jekyll serve
+```sh
+npm install
+npm run dev
 ```
 
-## 使用技術
+## Stack
 
+- [Astro](https://astro.build/)
 - [reveal.js](https://revealjs.com/)
-- [Jekyll](https://jekyllrb.com/)
-- Markdown
-- [GitHub Pages](https://pages.github.com/)
-- GitHub Actions
+
+## Slides
+
+Place each slide in `src/content/slides/YYYY/slug/`. The content path becomes
+the public URL `/YYYY/slug/`.
+
+Reveal slides use `index.md`:
+
+```yaml
+---
+engine: reveal
+title: Example
+description: Example slide
+publishedAt: 2026-07-27
+---
+```
+
+PDF slides use an `index.md` metadata file and a colocated PDF:
+
+```text
+src/content/slides/2026/example/
+├── index.md
+└── slides.pdf
+```
+
+```yaml
+---
+engine: pdf
+title: Example
+description: Example PDF slide
+publishedAt: 2026-07-27
+file: ./slides.pdf
+---
+```
+
+## Deployment
+
+The site is deployed as a static site on Cloudflare Pages.
+
+- Build command: `npm run build`
+- Build output directory: `dist`
+
+Redirects for slide URLs from the previous site are defined in
+`public/_redirects`.

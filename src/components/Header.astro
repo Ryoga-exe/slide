@@ -1,0 +1,23 @@
+---
+import { siteConfig } from "src/config";
+import GitHubIcon from "./GitHubIcon.astro";
+
+if (!Astro.site) {
+  throw new Error("Astro site config is required to render the header.");
+}
+---
+
+<header>
+  <div class="container">
+    <a class="brand" href="/">
+      Slide<span>{Astro.site.host}</span>
+    </a>
+    <a
+      href={siteConfig.github}
+      class="icon-anchor"
+      aria-label="GitHubでソースを見る"
+    >
+      <GitHubIcon size={25} />
+    </a>
+  </div>
+</header>

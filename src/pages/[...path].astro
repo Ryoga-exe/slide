@@ -1,0 +1,74 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import type { RevealConfig } from "reveal.js";
+import PdfSlideLayout from "src/layouts/PdfSlideLayout.astro";
+import RevealSlideLayout from "src/layouts/RevealSlideLayout.astro";
+import { createSlideAssetUrlResolver } from "src/lib/slide-assets";
+import { compileSlide } from "src/lib/slide-engines";
+
+export async function getStaticPaths() {
+  const slides = await getCollection("slides");
+
+  return slides.map((slide) => ({
+    params: { path: slide.id },
+    props: { slide },
+  }));
+}
+
+type Props = {
+  slide: CollectionEntry<"slides">;
+};
+
+const { slide } = Astro.props;
+const resolveAssetUrl = createSlideAssetUrlResolver(slide.id, slide.filePath);
+
+let content:
+  | {
+      engine: "reveal";
+      html: string;
+      theme: "black" | "white";
+      reveal: Partial<RevealConfig>;
+      embedTwitter: boolean;
+    }
+  | { engine: "pdf"; url: string };
+
+if (slide.data.engine === "reveal") {
+  if (slide.body === undefined) {
+    throw new Error(`Slide "${slide.id}" has no Markdown body.`);
+  }
+
+  content = {
+    engine: "reveal",
+    html: await compileSlide("reveal", slide.body, { resolveAssetUrl }),
+    theme: slide.data.theme,
+    reveal: slide.data.reveal,
+    embedTwitter: slide.data.embedTwitter,
+  };
+} else {
+  content = {
+    engine: "pdf",
+    url: resolveAssetUrl(slide.data.file),
+  };
+}
+---
+
+{
+  content.engine === "reveal" ? (
+    <RevealSlideLayout
+      title={slide.data.title}
+      description={slide.data.description}
+      theme={content.theme}
+      reveal={content.reveal}
+      embedTwitter={content.embedTwitter}
+    >
+      <Fragment set:html={content.html} />
+    </RevealSlideLayout>
+  ) : content.engine === "pdf" ? (
+    <PdfSlideLayout
+      title={slide.data.title}
+      description={slide.data.description}
+      url={content.url}
+      downloadName={`${slide.id.split("/").at(-1)}.pdf`}
+    />
+  ) : null
+}

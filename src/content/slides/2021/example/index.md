@@ -1,0 +1,259 @@
+---
+engine: reveal
+title: Example slide
+description: reveal.jsの機能を紹介するサンプルスライド
+publishedAt: 2021-04-08
+theme: black
+---
+
+## Example slide
+##### - example subtitle -
+***
+<br>
+
+#### Ryoga.exe
+
+---
+
+## HELLO THERE!
+
+---
+
+## VERTICAL SLIDES
+
+--
+
+### BASEMENT LEVEL 1
+
+--
+
+### BASEMENT LEVEL 2
+
+---
+
+## FRAGMENTS
+
+- List1 <!-- .element: class="fragment" -->
+- List2 <!-- .element: class="fragment" -->
+- List3 <!-- .element: class="fragment" -->
+
+--
+
+- Fade in                   <!-- .element: class="fragment" -->
+- Fade out                  <!-- .element: class="fragment fade-out" -->
+- Highlight red             <!-- .element: class="fragment highlight-red" -->
+- Fade in, then out         <!-- .element: class="fragment fade-in-then-out" -->
+- Slide up while fading in  <!-- .element: class="fragment fade-up" -->
+
+---
+
+### CODE HIGHLIGHT
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+  int a = 0;
+  cout << "Hello world!" << endl;
+  return 0;
+}
+```
+
+---
+
+### CODE
+
+```cpp [1|4-21|6|9|12|15]
+#include <iostream>
+using namespace std;
+
+int main() {
+  for (int i = 0; i <= 100; i++) {
+    if (i % 3 == 0) {
+      cout << "Fizz ";
+    }
+    else if (i % 5 == 0) {
+      cout << "Buzz ";
+    }
+    else if (i % 15 == 0) {
+      cout << "FizzBuzz ";
+    }
+    else {
+      cout << i << " ";
+    }
+  }
+  cout << endl;
+  return 0;
+}
+```
+
+---
+
+### AUTO-ANIMATE
+
+---
+
+<!-- .slide: data-auto-animate -->
+<pre data-id="code-animation"><code data-trim data-line-numbers>
+  let planets = [
+    { name: 'mars', diameter: 6779 },
+  ]
+</code></pre>
+
+--
+
+<!-- .slide: data-auto-animate -->
+<pre data-id="code-animation"><code data-trim data-line-numbers>
+  let planets = [
+    { name: 'mars', diameter: 6779 },
+    { name: 'earth', diameter: 12742 },
+    { name: 'jupiter', diameter: 139820 }
+  ]
+</code></pre>
+
+--
+
+<!-- .slide: data-auto-animate -->
+<pre data-id="code-animation"><code data-trim data-line-numbers>
+  let circumferenceReducer = ( c, planet ) => {
+    return c + planet.diameter * Math.PI;
+  }
+
+  let planets = [
+    { name: 'mars', diameter: 6779 },
+    { name: 'earth', diameter: 12742 },
+    { name: 'jupiter', diameter: 139820 }
+  ]
+
+  let c = planets.reduce( circumferenceReducer, 0 )
+</code></pre>
+
+---
+
+<!-- .slide: data-auto-animate -->
+<div data-id="box" style="height: 50px; background: salmon;"></div>
+
+--
+
+<!-- .slide: data-auto-animate -->
+<div data-id="box" style="height: 200px; background: blue;"></div>
+
+---
+
+<!-- .slide: data-auto-animate -->
+# IMPLICIT
+
+--
+
+<!-- .slide: data-auto-animate -->
+
+# IMPLICIT
+# ANIMATION
+
+---
+
+<!-- .slide: data-auto-animate -->
+
+- C++
+- Java
+- Python
+
+--
+
+<!-- .slide: data-auto-animate -->
+
+- C++
+- JavaScript
+- Java
+- Go
+- Python
+
+---
+
+## FIT TEXT <!-- .element: class="r-fit-text" -->
+## CAN BE USED FOR MULTIPLE HEADLINES <!-- .element: class="r-fit-text" -->
+
+---
+
+### STACK
+<div class="r-stack">
+  <img class="fragment" src="https://pbs.twimg.com/profile_banners/1079733554118983680/1632674779/1500x500" width="600" height="200">
+  <img class="fragment" src="https://pbs.twimg.com/media/FLVULnFXEAIhVMU?format=png&name=900x900" width="406" height="321">
+</div>
+
+---
+
+<!-- .slide: data-background="#aaa" -->
+## Background
+
+--
+
+<!-- .slide: data-background-image="https://pbs.twimg.com/media/FMfke2NVQAEUhAS?format=jpg&name=4096x4096" -->
+
+<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
+  <h2>background-image</h2>
+</div>
+
+---
+
+<!-- .slide: data-transition="zoom-in fade-out" -->
+## Transition
+
+---
+
+## Note
+
+Note: aaaaaaaaaa
+
+---
+
+## TABLE
+
+|header1|header2|header3|
+|:--|--:|:--:|
+|align left|align right|align center|
+|a|b|c|
+
+--
+
+|  Item  |  Value  |
+| ----  | ---- |
+|  CPU  |  Intel&trade; core-i7 9700K  |
+|  RAM  |  DDR4 32GB  |
+|  GPU  |  GeForce RTX2060  |
+
+---
+
+## Image
+
+![Image](./test.png)
+
+---
+
+## The Lorenz Equations
+$$
+\begin{aligned}
+\dot{x} &amp; = \sigma(y-x) \\\\
+\dot{y} &amp; = \rho x - y - xz \\\\
+\dot{z} &amp; = -\beta z + xy
+\end{aligned}
+$$
+
+---
+
+<!-- .slide: style="text-align: right;" -->
+## RIGHT
+
+--
+
+
+<!-- .slide: style="text-align: left;" -->
+## LEFT
+
+---
+
+<!-- .slide: style="text-align: left;" -->
+## End
+
+made with reveal.js and Astro
