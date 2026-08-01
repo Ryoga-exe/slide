@@ -574,10 +574,3 @@ $\operatorname{floor}(x) = \operatorname{round}(x - 0.5)$ なのでこの方法�
 ## 終わりに
 
 みなさんも黒魔術 CSS を書こう！
-
---
-
-<!-- .slide: style="text-align: left;" -->
-## End
-
-made with reveal.js and Jekyll

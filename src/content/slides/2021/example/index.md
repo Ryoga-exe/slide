@@ -256,4 +256,4 @@ $$
 <!-- .slide: style="text-align: left;" -->
 ## End
 
-made with reveal.js and Jekyll
+made with reveal.js and Astro
