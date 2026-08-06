@@ -1,59 +1,302 @@
 html,
-body.pdf-slide {
+body.pdf-slide,
+.pdf-deck {
   width: 100%;
   height: 100%;
 }
 
 body.pdf-slide {
   overflow: hidden;
-  color: #f5f5f5;
-  background: #202124;
+  color: #f7f7f7;
+  background: #161616;
 }
 
-.pdf-viewer-shell {
+.pdf-deck {
+  --pdf-progress: 0;
+
   position: relative;
-  width: 100%;
-  height: 100%;
+  isolation: isolate;
+  overflow: hidden;
+  background: radial-gradient(
+    circle at center,
+    #303030 0,
+    #202020 45%,
+    #161616 100%
+  );
+  touch-action: none;
+  user-select: none;
 }
 
-.pdf-fallback {
+.pdf-stage {
+  position: absolute;
+  inset: 0;
+}
+
+.pdf-page {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  max-width: 100%;
+  max-height: 100%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0.5rem 2.5rem rgb(0 0 0 / 35%);
+  transform: translate(-50%, -50%);
+
+  &.is-active {
+    opacity: 1;
+  }
+}
+
+.pdf-nav-zone {
+  position: absolute;
+  z-index: 2;
+  inset-block: 0;
+  width: min(18vw, 12rem);
+  border: 0;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+
+  span {
+    display: grid;
+    position: absolute;
+    top: 50%;
+    width: 2.5rem;
+    height: 4rem;
+    place-items: center;
+    border-radius: 0.4rem;
+    opacity: 0;
+    background: rgb(0 0 0 / 45%);
+    font-size: 2.5rem;
+    transform: translateY(-50%);
+    transition: opacity 120ms ease-out;
+  }
+
+  &:hover span {
+    opacity: 1;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:disabled span {
+    display: none;
+  }
+}
+
+.pdf-nav-zone--previous {
+  left: 0;
+
+  span {
+    left: 1rem;
+  }
+}
+
+.pdf-nav-zone--next {
+  right: 0;
+
+  span {
+    right: 1rem;
+  }
+}
+
+.pdf-controls {
+  display: flex;
+  position: absolute;
+  z-index: 4;
+  right: 1rem;
+  bottom: 1rem;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.35rem;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 0.6rem;
+  opacity: 0;
+  background: rgb(22 22 22 / 88%);
+  box-shadow: 0 0.3rem 1.5rem rgb(0 0 0 / 30%);
+  backdrop-filter: blur(0.6rem);
+  transform: translateY(0.5rem);
+  transition:
+    opacity 150ms ease-out,
+    transform 150ms ease-out;
+
+  button,
+  a {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border: 0;
+    border-radius: 0.35rem;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      background: rgb(255 255 255 / 14%);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+  }
+
+  svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+}
+
+.is-controls-visible .pdf-controls,
+.pdf-controls:focus-within {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pdf-page-number {
+  min-width: 4.25rem;
+  padding-inline: 0.35rem;
+  color: #ddd;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.pdf-controls-separator {
+  width: 1px;
+  height: 1.4rem;
+  margin-inline: 0.2rem;
+  background: rgb(255 255 255 / 18%);
+}
+
+.pdf-progress {
+  position: absolute;
+  z-index: 5;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 0.2rem;
+  background: rgb(255 255 255 / 10%);
+
+  span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #5b9dff;
+    transform: scaleX(var(--pdf-progress));
+    transform-origin: left;
+    transition: transform 140ms ease-out;
+  }
+}
+
+.pdf-status {
   display: grid;
   position: absolute;
+  z-index: 6;
   inset: 0;
   align-content: center;
   justify-items: center;
   gap: 1rem;
   padding: 2rem;
+  background: #1b1b1b;
   text-align: center;
 
+  &[hidden] {
+    display: none;
+  }
+
   h1 {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    max-width: 40rem;
+    font-size: clamp(1.4rem, 4vw, 2.4rem);
   }
 
   nav {
-    display: flex;
+    display: none;
     gap: 0.75rem;
   }
 
   a {
-    padding: 0.55rem 0.85rem;
+    padding: 0.5rem 0.8rem;
     border: 1px solid #777;
-    border-radius: 0.25rem;
+    border-radius: 0.3rem;
     text-decoration: none;
 
     &:hover {
-      background: #3c4043;
+      background: #333;
     }
   }
 }
 
-pdfjs-viewer-element {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  height: 100%;
-
-  &:not(:defined) {
+.pdf-deck.has-error {
+  .pdf-spinner {
     display: none;
+  }
+
+  .pdf-status nav {
+    display: flex;
+  }
+}
+
+.pdf-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 0.2rem solid rgb(255 255 255 / 20%);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: pdf-spin 700ms linear infinite;
+}
+
+@keyframes pdf-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@media (hover: none) {
+  .pdf-controls {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pdf-nav-zone span {
+    display: none;
+  }
+}
+
+@media (max-width: 36rem) {
+  .pdf-controls {
+    right: 50%;
+    bottom: 0.75rem;
+    transform: translate(50%, 0.5rem);
+  }
+
+  .is-controls-visible .pdf-controls,
+  .pdf-controls:focus-within {
+    transform: translate(50%, 0);
+  }
+
+  .pdf-controls-separator,
+  .pdf-controls a {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pdf-controls,
+  .pdf-progress span {
+    transition: none;
+  }
+
+  .pdf-spinner {
+    animation-duration: 1.4s;
   }
 }

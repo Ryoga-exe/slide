@@ -20,60 +20,113 @@ const { title, description, url, downloadName } = Astro.props;
     <Head title={title} description={description} type="article" />
   </head>
   <body class="pdf-slide">
-    <main class="pdf-viewer-shell">
-      <div class="pdf-fallback">
+    <main
+      class="pdf-deck is-controls-visible"
+      data-pdf-deck
+      data-pdf-url={url}
+      data-pdf-title={title}
+    >
+      <div class="pdf-stage" data-pdf-stage>
+        <canvas class="pdf-page" role="img" aria-hidden="true"></canvas>
+        <canvas class="pdf-page" role="img" aria-hidden="true"></canvas>
+        <button
+          class="pdf-nav-zone pdf-nav-zone--previous"
+          type="button"
+          tabindex="-1"
+          data-pdf-action="previous"
+          aria-label="前のスライド"
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
+        <button
+          class="pdf-nav-zone pdf-nav-zone--next"
+          type="button"
+          tabindex="-1"
+          data-pdf-action="next"
+          aria-label="次のスライド"
+        >
+          <span aria-hidden="true">›</span>
+        </button>
+      </div>
+
+      <nav class="pdf-controls" data-pdf-controls aria-label="スライドの操作">
+        <button
+          type="button"
+          data-pdf-action="previous"
+          aria-label="前のスライド"
+          title="前のスライド"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+        </button>
+        <output class="pdf-page-number" data-pdf-page-number aria-live="polite">
+          – / –
+        </output>
+        <button
+          type="button"
+          data-pdf-action="next"
+          aria-label="次のスライド"
+          title="次のスライド"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </button>
+        <span class="pdf-controls-separator" aria-hidden="true"></span>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener"
+          aria-label="元のPDFを開く"
+          title="元のPDFを開く"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14 5h5v5M13 11l6-6M19 13v6H5V5h6"></path>
+          </svg>
+        </a>
+        <a
+          href={url}
+          download={downloadName}
+          aria-label="PDFをダウンロード"
+          title="PDFをダウンロード"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 4v11m-4-4 4 4 4-4M5 20h14"></path>
+          </svg>
+        </a>
+        <button
+          type="button"
+          data-pdf-action="fullscreen"
+          aria-label="全画面表示"
+          title="全画面表示"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 4H4v4m12-4h4v4M8 20H4v-4m12 4h4v-4"></path>
+          </svg>
+        </button>
+      </nav>
+
+      <div class="pdf-progress" aria-hidden="true">
+        <span data-pdf-progress></span>
+      </div>
+
+      <div class="pdf-status" data-pdf-status role="status">
+        <div class="pdf-spinner" aria-hidden="true"></div>
         <h1>{title}</h1>
-        <p>{description}</p>
-        <nav aria-label="PDFの操作">
+        <p data-pdf-status-message>PDFを読み込んでいます…</p>
+        <nav aria-label="PDFの代替操作">
           <a href={url} target="_blank" rel="noopener">PDFを開く</a>
           <a href={url} download={downloadName}>ダウンロード</a>
         </nav>
       </div>
-      <pdfjs-viewer-element
-        src={url}
-        zoom="page-fit"
-        pagemode="none"
-        viewer-css-theme="DARK"
-        iframe-title={`${title}のPDFスライド`}></pdfjs-viewer-element>
     </main>
 
     <script>
-      import "pdfjs-viewer-element";
+      import { initializePdfSlideViewer } from "src/lib/pdf-slide-viewer";
 
-      type PdfViewerElement = HTMLElement & {
-        iframe: HTMLIFrameElement;
-        initPromise: Promise<unknown>;
-        injectViewerStyles(styles: string): Promise<void>;
-      };
-
-      const viewer = document.querySelector<PdfViewerElement>(
-        "pdfjs-viewer-element",
-      );
-
-      if (viewer) {
-        await viewer.injectViewerStyles(`
-          #editorModeButtons,
-          #secondaryOpenFile,
-          #viewBookmark,
-          #viewBookmarkSeparator {
-            display: none !important;
-          }
-        `);
-
-        await viewer.initPromise;
-
-        const viewerDocument = viewer.iframe.contentDocument;
-        const toolbar = viewerDocument?.querySelector("#toolbarViewerRight");
-        const presentationButton =
-          viewerDocument?.querySelector<HTMLButtonElement>("#presentationMode");
-
-        if (toolbar && presentationButton) {
-          presentationButton.classList.remove("labeled");
-          presentationButton.title = "発表モード";
-          presentationButton.setAttribute("aria-label", "発表モード");
-          toolbar.prepend(presentationButton);
-        }
-      }
+      const deck = document.querySelector<HTMLElement>("[data-pdf-deck]");
+      if (deck) await initializePdfSlideViewer(deck);
     </script>
   </body>
 </html>
