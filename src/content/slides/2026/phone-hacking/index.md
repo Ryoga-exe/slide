@@ -1,7 +1,7 @@
 ---
 engine: reveal
 title: ドイツの脆弱な電話機は簡単に root が取れる
-description: hack
+description: セキュリティ・キャンプ2026のLT大会発表資料
 publishedAt: 2026-08-11
 theme: white
 reveal:
