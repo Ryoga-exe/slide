@@ -37,24 +37,24 @@ reveal:
 
 ## 背景
 
---
+---
 
 ## 時は2025年 <!-- .element: class="r-fit-text" -->
 
---
+---
 
 ### 筑波大学で電話が流行
 
 ![電話を連打する間瀬bb](./mase-phone.gif)
 
---
+---
 
 ### 大量の電話が購入
 
 ![大量に購入された電話](./phone.jpg)
 OpenStage 40G という機種
 
---
+---
 
 何台がもらって遊ぶことに
 
@@ -64,20 +64,20 @@ OpenStage 40G という機種
 
 ![起動直後の電話の画面](./u-boot.jpg)
 
---
+---
 
 <!-- .slide: data-background-iframe="https://wiki.unify.com/wiki/OpenStage_40" -->
 <!-- .slide: style="text-align: right; border-right: solid white 4px;" -->
 
 <div style="background: black; color: white; display: inline-block; padding-inline: 0.5em;">公式 Wiki</div>
 
---
+---
 
 - 古い Linux が動いている
 - admin@ で SSH できる
 - ファームウェアが配布されている
 
---
+---
 
 SSH してみる
 
@@ -89,7 +89,7 @@ $ ssh -o PubkeyAcceptedKeyTypes=+ssh-rsa \
 
 ↑ クソ古いのでクソ長い引数が必要
 
---
+---
 
 ```shell
 BusyBox v1.15.3 (2020-09-04 16:43:40 CEST) built-in shell (ash)
@@ -103,7 +103,7 @@ $
 
 入れる
 
---
+---
 
 ### 謎のリポジトリを発見
 
@@ -111,13 +111,13 @@ https://github.com/fffilimonov/siemen_op_firm/
 
 "<span class="fragment highlight-red">firmware repack</span> siemens openstage 40/60/80"
 
---
+---
 
 ファームウェアは暗号化されていない
 
 ![](./firm.png)
 
---
+---
 
 `/etc/shadow` を見てみる
 
@@ -129,7 +129,7 @@ salt なし MD5-crypt
 
 → なんと数分で見つかる（クソ短い） <!-- .element: class="fragment" -->
 
---
+---
 
 ### CVE になっているらしい
 
@@ -145,7 +145,7 @@ salt なし MD5-crypt
 - `root@` で SSH が拒否
 - `su` → root 昇格できない
 
---
+---
 
 ### ps をする
 
@@ -156,7 +156,7 @@ salt なし MD5-crypt
   <img class="fragment" src="./dropbear.png">
 </div>
 
---
+---
 
 <!-- .slide: data-auto-animate -->
 <div style="font-size: 0.7em">
@@ -188,7 +188,7 @@ lrwxrwxrwx    1 admin    admin           17 Jan 31  2022 expr -> ../../bin/busy
 
 ## dropbear を書き換えてみる <!-- .element: class="r-fit-text" -->
 
---
+---
 
 
 <!-- .slide: data-auto-animate -->
@@ -202,7 +202,7 @@ if (-w があったら) {
 }
 </code></pre>
 
---
+---
 
 <!-- .slide: data-auto-animate -->
 ## 概要
@@ -216,7 +216,7 @@ if (-w があったら) {
 
 NOP 埋めする
 
---
+---
 
 ```shell
 $ (sh -c 'sleep 60 && cp ... /usr/bin/dropbearmulti') &
@@ -226,7 +226,7 @@ $ (sh -c 'sleep 60 && cp ... /usr/bin/dropbearmulti') &
 
 60秒後差し替えるように→SSHを止める<br>→待つ→再起動
 
---
+---
 
 ## こうして root になれた（めでたい）  <!-- .element: class="r-fit-text" -->
 
@@ -251,11 +251,11 @@ $ cat /dev/urandom > /dev/fb0
 
 フレームバッファに書き込める
 
---
+---
 
 ![](./framebuffer.jpg)
 
---
+---
 
 ## カーネルモジュールを解析して<br>任意の画像を表示可能になる
 
@@ -265,14 +265,23 @@ $ cat /dev/urandom > /dev/fb0
 
 ### 備考
 
---
+---
 
 ### 本機種の権限昇格は既知の問題らしい
 
 <https://www.pentagrid.ch/en/blog/rce-and-local-root-in-openstage-and-openscape-phones/>
 
---
+---
 
 ### <span style="background: white">たくさんの犠牲に🙏</span>
 
 <!-- .slide: data-background-image="./breaking.jpg" -->
+
+---
+
+### 追記
+
+セキュキャン後、やる気が出たので<br>音を出すために解析を続けている
+
+↓意味のわからないファイルで発狂している様子
+<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:b5s4tjegojtywgycglpjtheg/app.bsky.feed.post/3mtbruk6pi22z" data-bluesky-cid="bafyreib5cw3ufz443vslzfy3jqoj3zffpjbwxn7luym3lvhafdm3ogzngu" data-bluesky-embed-color-mode="system"><p lang="ja">例のドイツの電話機を解析しているが、中身が midi の嘘の wav ファイルで発狂している<br><br><a href="https://bsky.app/profile/did:plc:b5s4tjegojtywgycglpjtheg/post/3mtbruk6pi22z?ref_src=embed">[image or embed]</a></p>&mdash; 📦️ (<a href="https://bsky.app/profile/did:plc:b5s4tjegojtywgycglpjtheg?ref_src=embed">@ryoga.dev</a>) <a href="https://bsky.app/profile/did:plc:b5s4tjegojtywgycglpjtheg/post/3mtbruk6pi22z?ref_src=embed">2026年8月17日 22:15</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
