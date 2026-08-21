@@ -68,7 +68,7 @@ class PdfSlideViewer {
     this.#bindEvents();
 
     try {
-      this.#document = await getDocument(this.#source).promise;
+      this.#document = await getDocument({ url: this.#source }).promise;
       this.#page = this.#pageFromHash();
       this.#updateUi();
       this.#requestRender();
